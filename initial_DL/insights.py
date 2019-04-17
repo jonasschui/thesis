@@ -1,5 +1,7 @@
+from collections import Counter
+
 def main():
-	infile = open("../data/SoNaR1_training.txt", "r")
+	infile = open("../data/SoNaR1_training.txt", "r",encoding="utf8")
 	main_cats = ["PER", "LOC" , "ORG" , "PRO", "EVE", "MISC"]
 	per = []
 	loc = []
@@ -72,31 +74,39 @@ def main():
 		
 	org_subcats = ['NONE', 'MISC', 'GOV', 'COM']
 	org_none= org_misc= gov= com = 0
+	org_noneNE=[]
+	org_miscNE =[]
+	govNE = []
+	comNE =[]
 	for item in org:
+		ne = ' '.join(item[2:-2]).lower().rstrip()
 		if item[-1] == org_subcats[0]:
 			org_none += 1
+			org_noneNE.append(ne)
 		elif item[-1] == org_subcats[1]:
 			org_misc += 1
+			org_miscNE.append(ne)
 		elif item[-1] == org_subcats[2]:
 			gov += 1
+			govNE.append(ne)
 		elif item[-1] == org_subcats[3]:
 			com += 1
+			comNE.append(ne)
 
 	
 	pro_subcats = ['AANDEEL', 'MISC', 'TAAL']
 	for item in pro:
 		pro_subcats.append(item[-1])
-	print(set(pro_subcats))
+	
 	
 	eve_subcats = ['MENS', 'NAT']
 	for item in eve:
 		eve_subcats.append(item[-1])
-	print(set(eve_subcats))
 
 	misc_subcats = []
 	for item in misc:
 		misc_subcats.append(item[-1])
-	print(set(misc_subcats))
+	
 	
 	print("--------------------STATISTICS----------------------------")
 	print("		   LOCATION (total: {})				".format(len(loc)))
@@ -107,6 +117,24 @@ def main():
 	print("NONE, MISC, GOV, COM")
 	print("{}   {}   {}   {}".format(org_none, org_misc, gov, com))
 	print("----------------------------------------------------------")
+	print("\n")
+	print("Top ten words in each subcat")
+	print("LOC PUNT: {}".format(Counter(puntNE).most_common(10)))
+	print("LOC LIJN: {}".format(Counter(lijnNE).most_common(10)))
+	print("LOC BC: {}".format(Counter(bcNE).most_common(10)))
+	print("LOC WATER: {}".format(Counter(waterNE).most_common(10)))
+	print("LOC NONE: {}".format(Counter(noneNE).most_common(10)))
+	print("LOC REGIO: {}".format(Counter(regioNE).most_common(10)))
+	print("LOC FICTIEF: {}".format(Counter(fictiefNE).most_common(10)))
+	print("LOC LAND: {}".format(Counter(landNE).most_common(10)))
+	print("LOC CONT: {}".format(Counter(contNE).most_common(10)))
+	print("LOC HEELAL: {}".format(Counter(heelalNE).most_common(10)))
+	print("\n")
+	org_subcats = ['NONE', 'MISC', 'GOV', 'COM']
+	print("ORG NONE: {}".format(Counter(org_noneNE).most_common(10)))
+	print("ORG MISC: {}".format(Counter(org_miscNE).most_common(10)))
+	print("ORG GOV: {}".format(Counter(govNE).most_common(10)))
+	print("ORG COM: {}".format(Counter(comNE).most_common(10)))
 	
 	
 
