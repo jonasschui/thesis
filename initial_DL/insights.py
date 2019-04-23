@@ -1,4 +1,8 @@
 from collections import Counter
+import nltk
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+stopwords = stopwords.words('dutch')
 
 def get_unique_ne(ne_list, othercat_lists):
 	other = set([j for i in othercat_lists for j in i])
@@ -399,6 +403,127 @@ def main():
 	uniquegov = get_unique_ne(govNE, [org_miscNE,org_noneNE,comNE])
 	uniquecom = get_unique_ne(comNE, [org_miscNE,govNE,org_noneNE])
 	
+	# GET unique unigrams for NE word before and word after without stopwords
+	punt_pre_si = []
+	lijn_pre_si = []
+	bc_pre_si = []
+	water_pre_si = []
+	none_pre_si = []
+	regio_pre_si = []
+	fictief_pre_si = []
+	land_pre_si = []
+	cont_pre_si = []
+	heelal_pre_si = []
+	
+	punt_post_si = []
+	lijn_post_si = []
+	bc_post_si = []
+	water_post_si = []
+	none_post_si = []
+	regio_post_si = []
+	fictief_post_si = []
+	land_post_si = []
+	cont_post_si = []
+	heelal_post_si = []
+	
+	org_none_pre_si = []
+	org_misc_pre_si = []
+	gov_pre_si = []
+	com_pre_si = []
+	
+	org_none_post_si = []
+	org_misc_post_si = []
+	gov_post_si = []
+	com_post_si = []
+	
+	
+	for i in range(len(lines_for_bigrams)):
+		if i < (len(lines_for_bigrams) - 2):
+			word1 = lines_for_bigrams[i][2]
+			word2 = lines_for_bigrams[(i+1)][2]
+			word3 = lines_for_bigrams[(i+2)][2]
+			if len(lines_for_bigrams[(i+1)]) == 5:
+				cat = lines_for_bigrams[(i+1)][-2]
+				subcat = lines_for_bigrams[(i+1)][-1]
+				# PRE NE WORDS
+				if cat == "LOC":
+					if subcat == location_subcats[0]:
+						punt_pre_si.append(word1)
+						punt_post_si.append(word3)
+					elif subcat == location_subcats[1]:
+						lijn_pre_si.append(word1)
+						lijn_post_si.append(word3)
+					elif subcat == location_subcats[2]:
+						bc_pre_si.append(word1)
+						bc_post_si.append(word3)
+					elif subcat == location_subcats[3]:
+						water_pre_si.append(word1)
+						water_post_si.append(word3)
+					elif subcat == location_subcats[4]:
+						none_pre_si.append(word1)
+						none_post_si.append(word3)
+					elif subcat == location_subcats[5]:
+						regio_pre_si.append(word1)
+						regio_post_si.append(word3)
+					elif subcat == location_subcats[6]:
+						fictief_pre_si.append(word1)
+						fictief_post_si.append(word3)
+					elif subcat == location_subcats[7]:
+						land_pre_si.append(word1)
+						land_post_si.append(word3)
+					elif subcat == location_subcats[8]:
+						cont_pre_si.append(word1)
+						cont_post_si.append(word3)
+					elif subcat == location_subcats[9]:
+						heelal_pre_si.append(word1)
+						heelal_post_si.append(word3)
+				if cat == "ORG":
+					if subcat == org_subcats[0]:
+						org_none_pre_si.append(word1)
+						org_none_post_si.append(word3)
+					elif subcat == org_subcats[1]:
+						org_misc_pre_si.append(word1)
+						org_misc_post_si.append(word3)
+					elif subcat == org_subcats[2]:
+						gov_pre_si.append(word1)
+						gov_post_si.append(word3)
+					elif subcat == org_subcats[3]:
+						com_pre_si.append(word1)
+						com_post_si.append(word3)
+							
+	# set unigram lists to be unique
+	punt_pre_si_un = get_unique_ne(punt_pre_si, [lijn_pre_si,bc_pre_si,water_pre_si,none_pre_si,regio_pre_si,fictief_pre_si,land_pre_si,cont_pre_si,heelal_pre_si])
+	lijn_pre_si_un = get_unique_ne(lijn_pre_si, [punt_pre_si,bc_pre_si,water_pre_si,none_pre_si,regio_pre_si,fictief_pre_si,land_pre_si,cont_pre_si,heelal_pre_si])
+	bc_pre_si_un = get_unique_ne(bc_pre_si, [lijn_pre_si,punt_pre_si,water_pre_si,none_pre_si,regio_pre_si,fictief_pre_si,land_pre_si,cont_pre_si,heelal_pre_si])
+	water_pre_si_un = get_unique_ne(water_pre_si, [lijn_pre_si,bc_pre_si,punt_pre_si,none_pre_si,regio_pre_si,fictief_pre_si,land_pre_si,cont_pre_si,heelal_pre_si])
+	none_pre_si_un = get_unique_ne(none_pre_si, [lijn_pre_si,bc_pre_si,water_pre_si,punt_pre_si,regio_pre_si,fictief_pre_si,land_pre_si,cont_pre_si,heelal_pre_si])
+	regio_pre_si_un = get_unique_ne(regio_pre_si, [lijn_pre_si,bc_pre_si,water_pre_si,none_pre_si,punt_pre_si,fictief_pre_si,land_pre_si,cont_pre_si,heelal_pre_si])
+	fictief_pre_si_un = get_unique_ne(fictief_pre_si, [lijn_pre_si,bc_pre_si,water_pre_si,none_pre_si,regio_pre_si,punt_pre_si,land_pre_si,cont_pre_si,heelal_pre_si])
+	land_pre_si_un = get_unique_ne(land_pre_si, [lijn_pre_si,bc_pre_si,water_pre_si,none_pre_si,regio_pre_si,fictief_pre_si,punt_pre_si,cont_pre_si,heelal_pre_si])
+	cont_pre_si_un = get_unique_ne(cont_pre_si, [lijn_pre_si,bc_pre_si,water_pre_si,none_pre_si,regio_pre_si,fictief_pre_si,land_pre_si,punt_pre_si,heelal_pre_si])
+	heelal_pre_si_un = get_unique_ne(heelal_pre_si, [lijn_pre_si,bc_pre_si,water_pre_si,none_pre_si,regio_pre_si,fictief_pre_si,land_pre_si,cont_pre_si,punt_pre_si])
+	
+	punt_post_si_un = get_unique_ne(punt_post_si, [lijn_post_si,bc_post_si,water_post_si,none_post_si,regio_post_si,fictief_post_si,land_post_si,cont_post_si,heelal_post_si])
+	lijn_post_si_un = get_unique_ne(lijn_post_si, [punt_post_si,bc_post_si,water_post_si,none_post_si,regio_post_si,fictief_post_si,land_post_si,cont_post_si,heelal_post_si])
+	bc_post_si_un = get_unique_ne(bc_post_si, [lijn_post_si,punt_post_si,water_post_si,none_post_si,regio_post_si,fictief_post_si,land_post_si,cont_post_si,heelal_post_si])
+	water_post_si_un = get_unique_ne(water_post_si, [lijn_post_si,bc_post_si,punt_post_si,none_post_si,regio_post_si,fictief_post_si,land_post_si,cont_post_si,heelal_post_si])
+	none_post_si_un = get_unique_ne(none_post_si, [lijn_post_si,bc_post_si,water_post_si,punt_post_si,regio_post_si,fictief_post_si,land_post_si,cont_post_si,heelal_post_si])
+	regio_post_si_un = get_unique_ne(regio_post_si, [lijn_post_si,bc_post_si,water_post_si,none_post_si,punt_post_si,fictief_post_si,land_post_si,cont_post_si,heelal_post_si])
+	fictief_post_si_un = get_unique_ne(fictief_post_si, [lijn_post_si,bc_post_si,water_post_si,none_post_si,regio_post_si,punt_post_si,land_post_si,cont_post_si,heelal_post_si])
+	land_post_si_un = get_unique_ne(land_post_si, [lijn_post_si,bc_post_si,water_post_si,none_post_si,regio_post_si,fictief_post_si,punt_post_si,cont_post_si,heelal_post_si])
+	cont_post_si_un = get_unique_ne(cont_post_si, [lijn_post_si,bc_post_si,water_post_si,none_post_si,regio_post_si,fictief_post_si,land_post_si,punt_post_si,heelal_post_si])
+	heelal_post_si_un = get_unique_ne(heelal_post_si, [lijn_post_si,bc_post_si,water_post_si,none_post_si,regio_post_si,fictief_post_si,land_post_si,cont_post_si,punt_post_si])
+	
+	org_none_pre_si_un = get_unique_ne(org_none_pre_si, [org_misc_pre_si,gov_pre_si,com_pre_si])
+	org_misc_pre_si_un = get_unique_ne(org_misc_pre_si, [org_none_pre_si,gov_pre_si,com_pre_si])
+	gov_pre_si_un = get_unique_ne(gov_pre_si, [org_misc_pre_si,org_none_pre_si,com_pre_si])
+	com_pre_si_un = get_unique_ne(com_pre_si, [org_misc_pre_si,gov_pre_si,org_none_pre_si])
+	
+	org_none_post_si_un = get_unique_ne(org_none_post_si, [org_misc_post_si,gov_post_si,com_post_si])
+	org_misc_post_si_un = get_unique_ne(org_misc_post_si, [org_none_post_si,gov_post_si,com_post_si])
+	gov_post_si_un = get_unique_ne(gov_post_si, [org_misc_post_si,org_none_post_si,com_post_si])
+	com_post_si_un = get_unique_ne(com_post_si, [org_misc_post_si,gov_post_si,org_none_post_si])
+	
 	pro_subcats = ['AANDEEL', 'MISC', 'TAAL']
 	for item in pro:
 		pro_subcats.append(item[-1])
@@ -439,6 +564,7 @@ def main():
 	print("ORG MISC: {}".format(Counter(org_miscNE).most_common(10)))
 	print("ORG GOV: {}".format(Counter(govNE).most_common(10)))
 	print("ORG COM: {}".format(Counter(comNE).most_common(10)))
+	print("----------------------------------------------------------")
 	print("\n")
 	print("Top ten words in each subcat AND ONLY IN THAT SUBCAT")
 	print("LOC PUNT: {}".format(Counter(uniquepunt).most_common(10)))
@@ -456,6 +582,7 @@ def main():
 	print("ORG MISC: {}".format(Counter(uniqueorg_misc).most_common(10)))
 	print("ORG GOV: {}".format(Counter(uniquegov).most_common(10)))
 	print("ORG COM: {}".format(Counter(uniquecom).most_common(10)))
+	print("----------------------------------------------------------")
 	print("\n")
 	print("Top ten unique word bigrams in front of NE")
 	print("LOC PUNT: {}".format(Counter(punt_pre_bi_un).most_common(10)))
@@ -473,6 +600,7 @@ def main():
 	print("ORG MISC: {}".format(Counter(org_misc_pre_bi_un).most_common(10)))
 	print("ORG GOV: {}".format(Counter(gov_pre_bi_un).most_common(10)))
 	print("ORG COM: {}".format(Counter(com_pre_bi_un).most_common(10)))
+	print("----------------------------------------------------------")
 	print("\n")
 	print("Top ten unique word bigrams after NE")
 	print("LOC PUNT: {}".format(Counter(punt_post_bi_un).most_common(10)))
@@ -490,6 +618,44 @@ def main():
 	print("ORG MISC: {}".format(Counter(org_misc_post_bi_un).most_common(10)))
 	print("ORG GOV: {}".format(Counter(gov_post_bi_un).most_common(10)))
 	print("ORG COM: {}".format(Counter(com_post_bi_un).most_common(10)))
+	print("----------------------------------------------------------")
+	print("\n")
+	print("Top ten unique word bigrams before NE")
+	print("LOC PUNT: {}".format(Counter(punt_pre_si_un).most_common(10)))
+	print("LOC LIJN: {}".format(Counter(lijn_pre_si_un).most_common(10)))
+	print("LOC BC: {}".format(Counter(bc_pre_si_un).most_common(10)))
+	print("LOC WATER: {}".format(Counter(water_pre_si_un).most_common(10)))
+	print("LOC NONE: {}".format(Counter(none_pre_si_un).most_common(10)))
+	print("LOC REGIO: {}".format(Counter(regio_pre_si_un).most_common(10)))
+	print("LOC FICTIEF: {}".format(Counter(fictief_pre_si_un).most_common(10)))
+	print("LOC LAND: {}".format(Counter(land_pre_si_un).most_common(10)))
+	print("LOC CONT: {}".format(Counter(cont_pre_si_un).most_common(10)))
+	print("LOC HEELAL: {}".format(Counter(heelal_pre_si_un).most_common(10)))
+	print("\n")
+	print("ORG NONE: {}".format(Counter(org_none_pre_si_un).most_common(10)))
+	print("ORG MISC: {}".format(Counter(org_misc_pre_si_un).most_common(10)))
+	print("ORG GOV: {}".format(Counter(gov_pre_si_un).most_common(10)))
+	print("ORG COM: {}".format(Counter(com_pre_si_un).most_common(10)))
+	print("----------------------------------------------------------")
+	print("\n")
+	print("Top ten unique word unigrams after NE")
+	print("LOC PUNT: {}".format(Counter(punt_post_si_un).most_common(10)))
+	print("LOC LIJN: {}".format(Counter(lijn_post_si_un).most_common(10)))
+	print("LOC BC: {}".format(Counter(bc_post_si_un).most_common(10)))
+	print("LOC WATER: {}".format(Counter(water_post_si_un).most_common(10)))
+	print("LOC NONE: {}".format(Counter(none_post_si_un).most_common(10)))
+	print("LOC REGIO: {}".format(Counter(regio_post_si_un).most_common(10)))
+	print("LOC FICTIEF: {}".format(Counter(fictief_post_si_un).most_common(10)))
+	print("LOC LAND: {}".format(Counter(land_post_si_un).most_common(10)))
+	print("LOC CONT: {}".format(Counter(cont_post_si_un).most_common(10)))
+	print("LOC HEELAL: {}".format(Counter(heelal_post_si_un).most_common(10)))
+	print("\n")
+	print("ORG NONE: {}".format(Counter(org_none_post_si_un).most_common(10)))
+	print("ORG MISC: {}".format(Counter(org_misc_post_si_un).most_common(10)))
+	print("ORG GOV: {}".format(Counter(gov_post_si_un).most_common(10)))
+	print("ORG COM: {}".format(Counter(com_post_si_un).most_common(10)))
+	print("----------------------------------------------------------")
+	
 	
 	
 	
