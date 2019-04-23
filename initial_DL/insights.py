@@ -130,7 +130,6 @@ def main():
 	print("LOC CONT: {}".format(Counter(contNE).most_common(10)))
 	print("LOC HEELAL: {}".format(Counter(heelalNE).most_common(10)))
 	print("\n")
-	org_subcats = ['NONE', 'MISC', 'GOV', 'COM']
 	print("ORG NONE: {}".format(Counter(org_noneNE).most_common(10)))
 	print("ORG MISC: {}".format(Counter(org_miscNE).most_common(10)))
 	print("ORG GOV: {}".format(Counter(govNE).most_common(10)))
