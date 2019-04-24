@@ -695,7 +695,7 @@ def main():
 				joined_v.append(item)
 		lenght = len(joined_v)	
 		counter_list.append(tuple((k, lenght)))
-		if k == "com":
+		if k == "cont":
 			print("\n")
 			print(joined_v)
 	print("\n")
