@@ -29,7 +29,7 @@ def at_least_five(feat_list, featurename):
 	#print(type(counts))
 	at_least_n = []
 	for item, count in counts.items():
-		if count >= 5:
+		if count >= 3:
 			at_least_n.append(item)
 	if global_subcat not in feature_dict:
 		feature_dict[global_subcat] = at_least_n
@@ -685,12 +685,30 @@ def main():
 	
 	counter_list = []
 	for k,v in feature_dict.items():
-		joined_v = [j for i in v for j in i]
-		lenght = len(joined_v)
+		joined_v = []
+		
+		for item in v:
+			if type(item) == list:
+				for l_i in item:
+					joined_v.append(l_i)
+			else:
+				joined_v.append(item)
+		lenght = len(joined_v)	
 		counter_list.append(tuple((k, lenght)))
-		if k == "cont":
+		if k == "com":
+			print("\n")
 			print(joined_v)
+	print("\n")
 	print(counter_list)	
+	print("--------------------STATISTICS----------------------------")
+	print("		   LOCATION (total: {})				".format(len(loc)))
+	print("PUNT, LIJN, BC, WATER, NONE, REGIO, FICTIEF, LAND, CONT, HEELAL")
+	print("{}   {}   {}   {}   {}   {}   {}      {}     {}     {}".format(punt,lijn,bc,water,none,regio,fictief,land,cont,heelal))
+	print("\n")
+	print("		   ORGANISATION (total: {})				".format(len(org)))
+	print("NONE, MISC, GOV, COM")
+	print("{}   {}   {}   {}".format(org_none, org_misc, gov, com))
+	print("----------------------------------------------------------")
 
 if __name__ == '__main__':
 	main()
