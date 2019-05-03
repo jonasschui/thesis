@@ -692,6 +692,8 @@ def main():
 	print("ORG COM: {}".format(at_least_five(com_post_si_un,"ORG_com_post_si_un")))
 	print("----------------------------------------------------------")
 	
+	'''
+
 	counter_list = []
 	for k,v in feature_dict.items():
 		joined_v = []
@@ -718,6 +720,7 @@ def main():
 	print("NONE, MISC, GOV, COM")
 	print("{}   {}   {}   {}".format(org_none, org_misc, gov, com))
 	print("----------------------------------------------------------")
+	'''
 
 	#print("\n")
 	#for key,v in feature_dict_per_subcat.items():
