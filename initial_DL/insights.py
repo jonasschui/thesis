@@ -33,12 +33,14 @@ def at_least_five(feat_list, featurename):
 	for item, count in counts.items():
 		if count >= 3:
 			at_least_n.append(item)
+	'''
 	if global_subcat not in feature_dict:
 		feature_dict[global_subcat] = at_least_n
 	else:
-		val = feature_dict.get(global_subcat)
-		val.append(at_least_n)
-		feature_dict[global_subcat] = val
+		valf = feature_dict.get(global_subcat)
+		valf.append(at_least_n)
+		feature_dict[global_subcat] = valf
+	'''
 	# make dictionary that has the feature_name as keys and features as values
 	if featurename not in feature_dict_per_subcat:
 		feature_dict_per_subcat[featurename] = at_least_n
@@ -656,7 +658,7 @@ def main():
 	print("ORG COM: {}".format(at_least_five(com_post_bi_un,"ORG_com_post_bi_un")))
 	print("----------------------------------------------------------")
 	print("\n")
-	print("Top ten unique word bigrams before NE")
+	print("Top ten unique word unigrams before NE")
 	print("LOC PUNT: {}".format(at_least_five(punt_pre_si_un,"LOC_punt_pre_si_un")))
 	print("LOC LIJN: {}".format(at_least_five(lijn_pre_si_un,"LOC_lijn_pre_si_un")))
 	print("LOC BC: {}".format(at_least_five(bc_pre_si_un,"LOC_bc_pre_si_un")))
