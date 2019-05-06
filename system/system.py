@@ -34,12 +34,12 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 				# working with list of tuples ((bigram), weight)
 				if feat == "bi":
 					for bigram, weigth in value:
-						#print(key, bigram, weigth)
+						print(key, bigram, weigth)
 						continue
 				# working with list of tuples (string, weight)
 				else:
 					for string, weight in value:
-						#print(key, string, weight)
+						print(key, string, weight)
 						continue
 				#for item in value:
 					#print(item)
@@ -51,7 +51,8 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 	if main_cat == "ORG":
 		for key, value in decision_list.items():
 			if main_cat == key[:3]:
-				print(main_cat)
+				#print(main_cat)
+				continue
 	# add feature to certain subcategory
 	return True
 
@@ -138,9 +139,9 @@ def main():
 	# read in intitial decision list as dictionary
 	# key = CAT_subcat_featurename, value = list of features
 	initial_DL = load_initial_DL()
-	for key, value in initial_DL.items():
-		if key == "LOC_land_unique":
-			print(key, value)
+	#for key, value in initial_DL.items():
+	#	if key == "LOC_land_unique":
+	#		print(key, value)
 	list_of_feature_keys = initial_DL.keys()
 	# add weight of 1 for initial decision list items
 	for key, value in initial_DL.items():
