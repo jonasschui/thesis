@@ -25,6 +25,7 @@ def weigh_features(temporary_DL):
 
 def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_cat):
 	# check which main cat it belongs to
+	candidate_tags = []
 	if main_cat == "LOC":
 		# CAT_subcat_featurename, list
 		# keys are every subcat and their values
@@ -51,8 +52,24 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 	if main_cat == "ORG":
 		for key, value in decision_list.items():
 			if main_cat == key[:3]:
-				#print(main_cat)
-				continue
+				feat = key[-5:-3]
+				# working with list of tuples ((bigram), weight)
+				if feat == "bi":
+					for bigram, weigth in value:
+						print(key, bigram, weigth)
+						continue
+				# working with list of tuples (string, weight)
+				else:
+					for string, weight in value:
+						print(key, string, weight)
+						continue
+				#for item in value:
+					#print(item)
+					#if type(item) == "list":
+					#	print(key[3:8])
+					#else:
+						#print("nolist", key[3:8])
+					#	continue
 	# add feature to certain subcategory
 	return True
 
