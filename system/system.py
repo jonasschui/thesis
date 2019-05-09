@@ -1,10 +1,7 @@
 import pickle
 from collections import defaultdict
 from collections import Counter
-<<<<<<< HEAD
 from heapq import nlargest
-=======
->>>>>>> 6a9429e4f6bf766202357ad090e8c064f606fcc0
 
 # open the initial decision list made in insights.py
 def load_initial_DL():
@@ -166,7 +163,6 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 				if weighted >= w:
 					label = tag
 					w = weighted
-<<<<<<< HEAD
 			retrieved_features["ORG_{}_post_bi_un".format(label)] = post_bi_un
 			retrieved_features["ORG_{}_pre_bi_un".format(label)] = pre_bi_un
 			retrieved_features["ORG_{}_post_si_un".format(label)] = post_si_un
@@ -175,16 +171,6 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 			# remove from suggested features the ones that are already in the decision list
 			for item in remove_feats:
 				key = "ORG_{}_{}".format(label, item)
-=======
-			retrieved_features["LOC_{}_post_bi_un".format(label)] = post_bi_un
-			retrieved_features["LOC_{}_pre_bi_un".format(label)] = pre_bi_un
-			retrieved_features["LOC_{}_post_si_un".format(label)] = post_si_un
-			retrieved_features["LOC_{}_pre_si_un".format(label)] = pre_si_un
-			retrieved_features["LOC_{}_unique".format(label)] = ne
-			# remove from suggested features the ones that are already in the decision list
-			for item in remove_feats:
-				key = "LOC_{}_{}".format(label, item)
->>>>>>> 6a9429e4f6bf766202357ad090e8c064f606fcc0
 				retrieved_features.pop(key)
 			#print("HERE: ", label, retrieved_features)
 		else:
@@ -202,7 +188,6 @@ def send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decis
 	return label, retrieved_feats
 
 def weigh_features(temporary_DL):
-<<<<<<< HEAD
 
 	# strenght = count(x,y) + alpha / count(x) +kalpha
 	# x = feature, y = feature class 
@@ -260,16 +245,6 @@ def weigh_features(temporary_DL):
 				top_n_feats.append(tuple((feature, w)))
 		weighted_temp_DL[key] = top_n_feats
 			
-=======
-	weighted_temp_DL = defaultdict(list)
-	for key, value in temporary_DL.items():
-		value_list = []
-		c = Counter(value)
-		#print(c.most_common(5))
-		for item in c.most_common(5):
-			value_list.append(item[0])
-		weighted_temp_DL[key] = value_list
->>>>>>> 6a9429e4f6bf766202357ad090e8c064f606fcc0
 	return weighted_temp_DL
 
 def retrieve_new_features(decision_list, lines):
@@ -411,7 +386,6 @@ def main():
 	# step1: iterate through data in search of NE
 	counter = 0
 	
-<<<<<<< HEAD
 	for i in range(90):
 		new_decision_list = retrieve_new_features(initial_DL, lines)
 		for key, value in new_decision_list.items():
@@ -422,24 +396,6 @@ def main():
 				val.append(value)
 				initial_DL[key] = val
 	
-=======
-	new_decision_list = retrieve_new_features(initial_DL, lines)
-	for key, value in new_decision_list.items():
-		if key not in initial_DL:
-			initial_DL[key] = value
-		else:
-			val = initial_DL.get(key)
-			val.append(value)
-			initial_DL[key] = val
-	new_decision_list = retrieve_new_features(initial_DL, lines)
-	for key, value in new_decision_list.items():
-		if key not in initial_DL:
-			initial_DL[key] = value
-		else:
-			val = initial_DL.get(key)
-			val.append(value)
-			initial_DL[key] = val
->>>>>>> 6a9429e4f6bf766202357ad090e8c064f606fcc0
 
 	
 	
