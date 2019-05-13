@@ -417,10 +417,13 @@ def main():
 	# label using the created decision list
 	count2 = 0
 	for key, value in initial_DL.items():
-		#print(key,value)
+		print(key,value)
 		count2 += len(value)
-	print(count2)
-	retrieve_new_features(initial_DL, lines, "END")
+	# export the final decsion list
+	f = open("../data/final_DL.pkl","wb")
+	pickle.dump(initial_DL,f)
+	f.close()
+	
 	
 
 	
