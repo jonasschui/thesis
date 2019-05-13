@@ -132,6 +132,29 @@ def main():
 	no_match_loc = 0
 	match_org = 0
 	match_loc = 0
+	
+	punt_match = 0				
+	lijn_match = 0
+	bc_match = 0
+	water_match = 0
+	none_match = 0
+	regio_match = 0
+	fictief_match = 0
+	land_match = 0
+	cont_match = 0
+	heelal_match = 0
+	
+	punt_no_match = 0				
+	lijn_no_match = 0
+	bc_no_match = 0
+	water_no_match = 0
+	none_no_match = 0
+	regio_no_match = 0
+	fictief_no_match = 0
+	land_no_match = 0
+	cont_no_match = 0
+	heelal_no_match = 0
+	
 	for i in range((len(lines)-4)):
 		line_one = lines[i]
 		line_two = lines[(i+1)]
@@ -158,7 +181,7 @@ def main():
 				
 				# label the NE
 				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
-				print(line_one, label)
+				#print(line_one, label)
 					
 					
 		elif i == 1:
@@ -178,7 +201,7 @@ def main():
 
 				# label the NE
 				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
-				print(line_two, label)
+				#print(line_two, label)
 					
 			
 					
@@ -205,22 +228,75 @@ def main():
 				
 				# label the NE
 				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
-				
 				if main_cat == "LOC":
-					if line_three[-1] == label.upper():
-						
+					label = label.upper()
+					subcat = line_three[-1].upper()
+					if subcat == label:
+						if label == "PUNT":
+							punt_match += 1
+						elif label == "LIJN":
+							lijn_match += 1
+						elif label == "BC":
+							bc_match += 1
+						elif label == "WATER":
+							water_match += 1
+						elif label == "NONE":
+							none_match += 1
+						elif label == "REGIO":
+							regio_match += 1
+						elif label == "FICTIEF":
+							fictief_match += 1
+						elif label == 'LAND':
+							land_match += 1
+						elif label == 'CONT':
+							cont_match += 1
+						elif label == 'HEELAL':
+							heelal_match += 1
+						else:
+							print(label)
 						match_loc += 1
 					else:
-						print(line_three, label.upper())
+						if subcat == "PUNT":
+							punt_no_match += 1
+						elif subcat == "LIJN":
+							lijn_no_match += 1
+						elif subcat == "BC":
+							bc_no_match += 1
+						elif subcat == "WATER":
+							water_no_match += 1
+						elif subcat == "NONE":
+							none_no_match += 1
+						elif subcat == "REGIO":
+							regio_no_match += 1
+						elif subcat == "FICTIEF":
+							ficitef_no_match += 1
+						elif subcat == 'LAND':
+							land_no_match += 1
+						elif subcat == 'CONT':
+							cont_no_match += 1
+						elif subcat == 'HEELAL':
+							heelal_no_match += 1
 						no_match_loc += 1
+				'''
 				elif main_cat == "ORG":
 					if line_three[-1] == label.upper():
-						
 						match_org += 1
 					else:
 						print(line_three, label.upper())
 						no_match_org += 1
+				'''
+	
 	print("LOC matches = {}, no_matches = {} \n".format(match_loc, no_match_loc))
-	print("ORG matches = {}, no_matches = {} \n".format(match_org, no_match_org))
+	print("PUNT matches = {}, no_matches = {} \n".format(punt_match, punt_no_match))
+	print("LIJN matches = {}, no_matches = {} \n".format(lijn_match, lijn_no_match))
+	print("BC matches = {}, no_matches = {} \n".format(bc_match, bc_no_match))
+	print("WATER matches = {}, no_matches = {} \n".format(water_match, water_no_match))
+	print("NONE matches = {}, no_matches = {} \n".format(none_match, none_no_match))
+	print("REGIO matches = {}, no_matches = {} \n".format(regio_match, regio_no_match))
+	print("FICTIEF matches = {}, no_matches = {} \n".format(fictief_match, fictief_no_match))
+	print("LAND matches = {}, no_matches = {} \n".format(land_match, land_no_match))
+	print("CONT matches = {}, no_matches = {} \n".format(cont_match, cont_no_match))
+	print("HEELAL matches = {}, no_matches = {} \n".format(heelal_match, heelal_no_match))
+	#print("ORG matches = {}, no_matches = {} \n".format(match_org, no_match_org))
 if __name__ == '__main__':
 	main()
