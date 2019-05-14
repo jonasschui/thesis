@@ -3,31 +3,16 @@ from collections import defaultdict
 from collections import Counter
 from heapq import nlargest
 
-from nltk.corpus import stopwords
-import nltk
-nltk.download('stopwords')
-stopwords = stopwords.words('dutch')
+#from nltk.corpus import stopwords
+#import nltk
+#nltk.download('stopwords')
+#stopwords = stopwords.words('dutch')
 
 # open the initial decision list made in insights.py
 def load_initial_DL():
 	pickle_in = open("../initial_DL/initial_DL.pkl","rb")
 	initial_DL = pickle.load(pickle_in)
 	return initial_DL
-'''
-def label_ne(unique,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list):
-	# label and grab features to temporary list
-	# step 1: check to see if feature occurs in the decision list
-	# when occurences are found take the label with the highest weight
-	# add all the features to the temporary decision list to the corresponding subcategory as feature
-	# weigh the features in the temprorary decision list
-	# filter the temporary decision list taking the top n weighted features
-	# add the top n features per subcategory to the initial decision list including weight
-	# label the data using the new decision list
-	# return the newly labeled data
-	return True
-'''
-
-
 
 def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_cat, mode):
 	# check which main cat it belongs to
@@ -49,7 +34,6 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 				subcat = key.split("_")[1]
 
 				# working with list of tuples ((bigram), weight)
-				
 				if bi_or_si == "bi":
 					for item in value:
 						bigram = item[0]
@@ -66,28 +50,23 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 								candidate_tags.append(tuple((subcat, weight)))
 								match_found = True
 								remove_feats.append("pre_bi_un")
-							
-						
 
 				# working with list of tuples (string, weight)
 				else:
 					for item in value:
 						string = item[0]
 						weight = item[1]
-						# see if there is a match in unigram of ne features
-						#print(key, string, weight)
+						# see if there is a match in unigram or ne features
 						if feat == "post_si_un":
-							if string not in stopwords:
-								if post_si_un == string:
-									candidate_tags.append(tuple((subcat, weight)))
-									match_found = True
-									remove_feats.append("post_si_un")
+							if post_si_un == string:
+								candidate_tags.append(tuple((subcat, weight)))
+								match_found = True
+								remove_feats.append("post_si_un")
 						elif feat == "pre_si_un": 
-							if string not in stopwords:
-								if pre_si_un == string: 
-									candidate_tags.append(tuple((subcat, weight)))
-									match_found = True
-									remove_feats.append("pre_si_un")
+							if pre_si_un == string: 
+								candidate_tags.append(tuple((subcat, weight)))
+								match_found = True
+								remove_feats.append("pre_si_un")
 						elif feat == "unique":
 							if ne == string:
 								candidate_tags.append(tuple((subcat, weight)))
@@ -253,6 +232,7 @@ def weigh_features(temporary_DL, mode):
 			if mode == "FINAL":
 				denominator = counter + (k*alpha)
 				weight_featx = (nominator/denominator)
+			
 			if key_main not in weighted_temp_DL:
 				weighted_temp_DL[key_main] = [tuple((featx, weight_featx))]
 			else:
@@ -268,7 +248,7 @@ def weigh_features(temporary_DL, mode):
 			for feature, w in item:
 				weights.append(w)
 			#print(weights)
-			top_weights = nlargest(5, weights)
+			top_weights = nlargest(15, weights)
 			#print(top_weights)
 			for feature, w in item:
 				if w in top_weights:
@@ -283,9 +263,7 @@ def weigh_features(temporary_DL, mode):
 def retrieve_new_features(decision_list, lines, mode):
 	temporary_DL = defaultdict(list)
 	strings = []
-	for k, v in decision_list.items():
-		for l, y in v:
-			strings.append(l)
+	
 	for i in range((len(lines)-4)):
 		line_one = lines[i]
 		line_two = lines[(i+1)]
@@ -314,13 +292,19 @@ def retrieve_new_features(decision_list, lines, mode):
 				# label the NE
 				label, temp_dic_item = send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list, mode)
 				if label != "none_found":
-					#line_one.append(label)
 					# add the temporary features (without weight) to the temrorary_DL
 					for key, value in temp_dic_item.items():
 						if key not in temporary_DL:
-							temporary_DL[key] = [value]
+							strings = []
+							for unit in decision_list.get(key):
+								strings.append(unit[0])							
+							if value not in strings:
+								temporary_DL[key] = [value]
 						else:
 							val = temporary_DL.get(key)
+							strings = []
+							for unit in decision_list.get(key):
+								strings.append(unit[0])							
 							if value not in strings:
 								val.append(value)
 							temporary_DL[key] = val
@@ -344,13 +328,19 @@ def retrieve_new_features(decision_list, lines, mode):
 				# label the NE
 				label, temp_dic_item = send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list, mode)
 				if label != "none_found":
-					#line_two.append(label)
 					# add the temporary features (without weight) to the temrorary_DL
 					for key, value in temp_dic_item.items():
 						if key not in temporary_DL:
-							temporary_DL[key] = [value]
+							strings = []
+							for unit in decision_list.get(key):
+								strings.append(unit[0])							
+							if value not in strings:
+								temporary_DL[key] = [value]
 						else:
 							val = temporary_DL.get(key)
+							strings = []
+							for unit in decision_list.get(key):
+								strings.append(unit[0])							
 							if value not in strings:
 								val.append(value)
 							temporary_DL[key] = val
@@ -380,13 +370,19 @@ def retrieve_new_features(decision_list, lines, mode):
 				# label the NE
 				label, temp_dic_item = send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list, mode)
 				if label != "none_found":
-					#line_three.append(label)
 					# add the temporary features (without weight) to the temrorary_DL
 					for key, value in temp_dic_item.items():
 						if key not in temporary_DL:
-							temporary_DL[key] = [value]
+							strings = []
+							for unit in decision_list.get(key):
+								strings.append(unit[0])							
+							if value not in strings:
+								temporary_DL[key] = [value]
 						else:
 							val = temporary_DL.get(key)
+							strings = []
+							for unit in decision_list.get(key):
+								strings.append(unit[0])							
 							if value not in strings:
 								val.append(value)
 							temporary_DL[key] = val
@@ -397,7 +393,7 @@ def retrieve_new_features(decision_list, lines, mode):
 	new_features = weigh_features(temporary_DL, mode)
 	# also return the newly labeled lines of which a feature matched
 	if mode == "NORMAL" or mode == "FINAL":
-		return new_features, label
+		return new_features
 	
 
 def main():
@@ -417,9 +413,6 @@ def main():
 			weighted_feats.append(feature)
 		initial_DL[key] = weighted_feats
 
-	# list of feature names
-	feat_names = ['post_bi_un', 'post_si_un', 'pre_si_un', 'pre_bi_un', 'unique']
-
 	# read in dataset
 	lines = []
 	infile = open("../data/using_development/SoNaR1_dev.txt", "r",encoding="utf8")
@@ -430,11 +423,10 @@ def main():
 			lines.append(line)
 
 	# step1: iterate through data in search of NE
-	
 	for i in range(90):
 		counter = 0
 		print(i)
-		new_decision_list, label = retrieve_new_features(initial_DL, lines, "NORMAL")
+		new_decision_list = retrieve_new_features(initial_DL, lines, "NORMAL")
 		for key, value in new_decision_list.items():
 			if key not in initial_DL:
 				initial_DL[key] = value
@@ -443,12 +435,13 @@ def main():
 				for item in value:
 					val.append(item)
 				initial_DL[key] = val
+			print(value)
 		for key, value in initial_DL.items():
 			counter += len(value)
 		print(counter, "\n")
 	# final iteration
 	print("HERE1")
-	new_decision_list, label = retrieve_new_features(initial_DL, lines, "FINAL")
+	new_decision_list = retrieve_new_features(initial_DL, lines, "FINAL")
 	for key, value in new_decision_list.items():
 			if key not in initial_DL:
 				initial_DL[key] = value
@@ -462,7 +455,7 @@ def main():
 	for key, value in initial_DL.items():
 		print(key, "\t :",len(value))
 		count2 += len(value)
-	
+	print(count2)
 	# export the final decsion list
 	f = open("../data/final_DL.pkl","wb")
 	pickle.dump(initial_DL,f)
