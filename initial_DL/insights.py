@@ -728,15 +728,8 @@ def main():
 	#for key,v in feature_dict_per_subcat.items():
 	#	print(key)
 	
-	# manually add some features that should be true
-	for key, value in feature_dict_per_subcat.items():
-		feat = "_".join(key.split("_")[2:])
-		if key == "LOC_cont_unique":
-			val = feature_dict_per_subcat.get(key)
-			conts = ["Afrika", "Europa", "Oceanië","Azië","Noord-Amerika", "Zuid-Amerika","Antartica"]
-			for item in conts:
-				val.append(item)
-			feature_dict_per_subcat[key] = val
+	
+		
 	f = open("initial_DL.pkl","wb")
 	pickle.dump(feature_dict_per_subcat,f)
 	f.close()
