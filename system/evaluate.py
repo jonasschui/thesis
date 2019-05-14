@@ -189,7 +189,14 @@ def main():
 	gov_no_match = 0
 	org_none_no_match = 0
 	
+	none_found = 0
 	
+	com_present = 0
+	org_misc_present = 0
+	gov_present = 0
+	org_none_present = 0
+	org_present = 0
+
 	
 	for i in range((len(lines)-4)):
 		line_one = lines[i]
@@ -267,6 +274,8 @@ def main():
 				for item in ["punt","lijn","bc","water","none","regio","fictief","land","cont","heelal","ORG_none","ORG_misc","gov","com"]:
 					string_list.append(item.upper())
 				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
+				if label == "none_found":
+					none_found += 1
 				if main_cat == "LOC":
 					label = label.upper()
 					subcat = line_three[-1].upper()
@@ -361,6 +370,15 @@ def main():
 						elif subcat == "NONE":
 							org_none_no_match += 1
 						no_match_org += 1
+					if subcat == "MISC":
+						org_misc_present += 1
+					elif subcat == "COM":
+						com_present += 1
+					elif subcat == "GOV":
+						gov_present += 1
+					elif subcat == "NONE":
+						org_none_present += 1
+					org_present += 1
 	print("LOC \n")
 	print("LOC matches = {}, no_matches = {} ,present = {}, precision = {}, recall = {}  \n".format(match_loc, no_match_loc,loc_present, precision(match_loc, no_match_loc), recall(match_loc,loc_present)))
 	print("PUNT matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(punt_match, punt_no_match,punt_present, precision(punt_match, punt_no_match), recall(punt_match,punt_present)))
@@ -373,18 +391,21 @@ def main():
 	print("LAND matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(land_match, land_no_match,land_present, precision(land_match, land_no_match), recall(land_match,land_present)))
 	print("CONT matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(cont_match, cont_no_match,cont_present, precision(cont_match, cont_no_match), recall(cont_match,cont_present)))
 	print("HEELAL matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(heelal_match, heelal_no_match, heelal_present, precision(heelal_match, heelal_no_match), recall(heelal_match, heelal_present)))
+
 	print("\n ORG \n") 
-	print("ORG matches = {}, no_matches = {} \n".format(match_org, no_match_org))
-	print("MISC matches = {}, no_matches = {} \n".format(org_misc_match, org_misc_no_match))
-	print("COM matches = {}, no_matches = {} \n".format(com_match, com_no_match))
-	print("GOV matches = {}, no_matches = {} \n".format(gov_match, gov_no_match))
-	print("NONE matches = {}, no_matches = {} \n".format(org_none_match, org_none_no_match))
+	print("ORG matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(match_org, no_match_org,org_present, precision(match_org, no_match_org), recall(match_org,org_present)))
+	print("MISC matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(org_misc_match, org_misc_no_match,org_misc_present, precision(org_misc_match, org_misc_no_match), recall(org_misc_match,org_misc_present)))
+	print("COM matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(com_match, com_no_match,com_present, precision(com_match, com_no_match), recall(com_match,com_present)))
+	print("GOV matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(gov_match, gov_no_match,gov_present, precision(gov_match, gov_no_match), recall(gov_match,gov_present)))
+	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(org_none_match, org_none_no_match,org_none_present, precision(org_none_match, org_none_no_match), recall(org_none_match,org_none_present)))
 	#print("ORG matches = {}, no_matches = {} \n".format(match_org, no_match_org))
 	
 	for key, value in final_DL.items():
 		subcat = key.split("_")[1]
-		if subcat == "lijn":
+		if subcat == "misc":
 			print(key, value)
-		
+	
+	print(none_found)
+
 if __name__ == '__main__':
 	main()
