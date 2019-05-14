@@ -58,11 +58,13 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 						weight = item[1]
 						# see if there is a match in unigram or ne features
 						if feat == "post_si_un":
+							#if string not in stopwords:
 							if post_si_un == string:
 								candidate_tags.append(tuple((subcat, weight)))
 								match_found = True
 								remove_feats.append("post_si_un")
 						elif feat == "pre_si_un": 
+							#if string not in stopwords:
 							if pre_si_un == string: 
 								candidate_tags.append(tuple((subcat, weight)))
 								match_found = True
@@ -224,11 +226,11 @@ def weigh_features(temporary_DL, mode):
 					if item == featx:
 						counter += 1
 			if mode == "NORMAL":
-				if counter == 1:
-					weight_featx = 0.1
-				else:
-					denominator = counter + (k*alpha)
-					weight_featx = (nominator/denominator)
+			#	if counter == 1:
+			#		weight_featx = 0.1
+			#	else:
+				denominator = counter + (k*alpha)
+				weight_featx = (nominator/denominator)
 			if mode == "FINAL":
 				denominator = counter + (k*alpha)
 				weight_featx = (nominator/denominator)
@@ -248,7 +250,7 @@ def weigh_features(temporary_DL, mode):
 			for feature, w in item:
 				weights.append(w)
 			#print(weights)
-			top_weights = nlargest(15, weights)
+			top_weights = nlargest(10, weights)
 			#print(top_weights)
 			for feature, w in item:
 				if w in top_weights:
@@ -394,8 +396,24 @@ def retrieve_new_features(decision_list, lines, mode):
 	# also return the newly labeled lines of which a feature matched
 	if mode == "NORMAL" or mode == "FINAL":
 		return new_features
-	
 
+def manually_add_to_initital_DL(decision_list):
+	# manually add some features that should be true
+	for key, value in decision_list.items():
+		feat = "_".join(key.split("_")[2:])
+
+		# add a list of continent names
+		if key == "LOC_cont_unique":
+			val = decision_list.get(key)
+			conts = ["Afrika", "Europa", "Oceanië","Azië","Noord-Amerika", "Zuid-Amerika","Antartica"]
+			for item in conts:
+				val.append(tuple((item, 0.8)))
+			decision_list[key] = val
+
+		#if key == "
+			
+	
+	return decision_list
 def main():
 	# read in intitial decision list as dictionary
 	# key = CAT_subcat_featurename, value = list of features
@@ -413,6 +431,7 @@ def main():
 			weighted_feats.append(feature)
 		initial_DL[key] = weighted_feats
 
+	initial_DL = manually_add_to_initital_DL(initial_DL)
 	# read in dataset
 	lines = []
 	infile = open("../data/using_development/SoNaR1_dev.txt", "r",encoding="utf8")
@@ -423,6 +442,7 @@ def main():
 			lines.append(line)
 
 	# step1: iterate through data in search of NE
+	track = 0
 	for i in range(90):
 		counter = 0
 		print(i)
@@ -439,6 +459,9 @@ def main():
 		for key, value in initial_DL.items():
 			counter += len(value)
 		print(counter, "\n")
+		if track == counter:
+			break
+		track = counter
 	# final iteration
 	print("HERE1")
 	new_decision_list = retrieve_new_features(initial_DL, lines, "FINAL")
