@@ -118,6 +118,18 @@ def load_final_DL():
 	final_DL = pickle.load(pickle_in)
 	return final_DL
 
+def precision(match, no_match):
+	if no_match == 0:
+		return 1
+	precision = (match/(match+no_match))
+	return precision
+	
+def recall(match, present):
+	if present == 0:
+		return 1
+	recall = (match/present)
+	return recall
+
 def main():
 	final_DL = load_final_DL()
 	lines = []
@@ -154,6 +166,30 @@ def main():
 	land_no_match = 0
 	cont_no_match = 0
 	heelal_no_match = 0
+	
+	punt_present = 0
+	lijn_present = 0
+	bc_present = 0
+	water_present = 0
+	none_present = 0
+	regio_present = 0
+	fictief_present = 0
+	land_present = 0
+	cont_present = 0
+	heelal_present = 0
+	loc_present = 0
+	
+	org_misc_match = 0				
+	com_match = 0
+	gov_match = 0
+	org_none_match = 0
+	
+	org_misc_no_match = 0				
+	com_no_match = 0
+	gov_no_match = 0
+	org_none_no_match = 0
+	
+	
 	
 	for i in range((len(lines)-4)):
 		line_one = lines[i]
@@ -227,6 +263,9 @@ def main():
 				pre_si_un = line_two[2]
 				
 				# label the NE
+				string_list = []
+				for item in ["punt","lijn","bc","water","none","regio","fictief","land","cont","heelal","ORG_none","ORG_misc","gov","com"]:
+					string_list.append(item.upper())
 				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
 				if main_cat == "LOC":
 					label = label.upper()
@@ -256,47 +295,96 @@ def main():
 							print(label)
 						match_loc += 1
 					else:
-						if subcat == "PUNT":
+						if label == "PUNT":
 							punt_no_match += 1
-						elif subcat == "LIJN":
+						elif label == "LIJN":
 							lijn_no_match += 1
-						elif subcat == "BC":
+						elif label == "BC":
 							bc_no_match += 1
-						elif subcat == "WATER":
+						elif label == "WATER":
 							water_no_match += 1
-						elif subcat == "NONE":
+						elif label == "NONE":
 							none_no_match += 1
-						elif subcat == "REGIO":
+						elif label == "REGIO":
 							regio_no_match += 1
-						elif subcat == "FICTIEF":
+						elif label == "FICTIEF":
 							ficitef_no_match += 1
-						elif subcat == 'LAND':
+						elif label == 'LAND':
 							land_no_match += 1
-						elif subcat == 'CONT':
+						elif label == 'CONT':
 							cont_no_match += 1
-						elif subcat == 'HEELAL':
+						elif label == 'HEELAL':
 							heelal_no_match += 1
 						no_match_loc += 1
-				'''
-				elif main_cat == "ORG":
-					if line_three[-1] == label.upper():
+					if subcat == "PUNT":
+						punt_present += 1
+					elif subcat == "LIJN":
+						lijn_present += 1
+					elif subcat == "BC":
+						bc_present += 1
+					elif subcat == "WATER":
+						water_present += 1
+					elif subcat == "NONE":
+						none_present += 1
+					elif subcat == "REGIO":
+						regio_present += 1
+					elif subcat == "FICTIEF":
+						fictief_present += 1
+					elif subcat == 'LAND':
+						land_present += 1
+					elif subcat == 'CONT':
+						cont_present += 1
+					elif subcat == 'HEELAL':
+						heelal_present += 1
+					loc_present += 1
+						
+				if main_cat == "ORG":
+					label = label.upper()
+					subcat = line_three[-1].upper()
+					if subcat == label:
+						if label == "MISC":
+							org_misc_match += 1
+						elif label == "COM":
+							com_match += 1
+						elif label == "GOV":
+							gov_match += 1
+						elif label == "NONE":
+							org_none_match += 1
 						match_org += 1
 					else:
-						print(line_three, label.upper())
+						if subcat == "MISC":
+							org_misc_no_match += 1
+						elif subcat == "COM":
+							com_no_match += 1
+						elif subcat == "GOV":
+							gov_no_match += 1
+						elif subcat == "NONE":
+							org_none_no_match += 1
 						no_match_org += 1
-				'''
-	
-	print("LOC matches = {}, no_matches = {} \n".format(match_loc, no_match_loc))
-	print("PUNT matches = {}, no_matches = {} \n".format(punt_match, punt_no_match))
-	print("LIJN matches = {}, no_matches = {} \n".format(lijn_match, lijn_no_match))
-	print("BC matches = {}, no_matches = {} \n".format(bc_match, bc_no_match))
-	print("WATER matches = {}, no_matches = {} \n".format(water_match, water_no_match))
-	print("NONE matches = {}, no_matches = {} \n".format(none_match, none_no_match))
-	print("REGIO matches = {}, no_matches = {} \n".format(regio_match, regio_no_match))
-	print("FICTIEF matches = {}, no_matches = {} \n".format(fictief_match, fictief_no_match))
-	print("LAND matches = {}, no_matches = {} \n".format(land_match, land_no_match))
-	print("CONT matches = {}, no_matches = {} \n".format(cont_match, cont_no_match))
-	print("HEELAL matches = {}, no_matches = {} \n".format(heelal_match, heelal_no_match))
+	print("LOC \n")
+	print("LOC matches = {}, no_matches = {} ,present = {}, precision = {}, recall = {}  \n".format(match_loc, no_match_loc,loc_present, precision(match_loc, no_match_loc), recall(match_loc,loc_present)))
+	print("PUNT matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(punt_match, punt_no_match,punt_present, precision(punt_match, punt_no_match), recall(punt_match,punt_present)))
+	print("LIJN matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(lijn_match, lijn_no_match,lijn_present, precision(lijn_match, lijn_no_match), recall(lijn_match,lijn_present)))
+	print("BC matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(bc_match, bc_no_match,bc_present, precision(bc_match, bc_no_match), recall(bc_match,bc_present)))
+	print("WATER matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(water_match, water_no_match,water_present, precision(water_match, water_no_match), recall(water_match,water_present)))
+	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(none_match, none_no_match,none_present, precision(none_match, none_no_match), recall(none_match,none_present)))
+	print("REGIO matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(regio_match, regio_no_match,regio_present, precision(regio_match, regio_no_match), recall(regio_match,regio_present)))
+	print("FICTIEF matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(fictief_match, fictief_no_match,fictief_present, precision(fictief_match, fictief_no_match), recall(fictief_match,fictief_present)))
+	print("LAND matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(land_match, land_no_match,land_present, precision(land_match, land_no_match), recall(land_match,land_present)))
+	print("CONT matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(cont_match, cont_no_match,cont_present, precision(cont_match, cont_no_match), recall(cont_match,cont_present)))
+	print("HEELAL matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(heelal_match, heelal_no_match, heelal_present, precision(heelal_match, heelal_no_match), recall(heelal_match, heelal_present)))
+	print("\n ORG \n") 
+	print("ORG matches = {}, no_matches = {} \n".format(match_org, no_match_org))
+	print("MISC matches = {}, no_matches = {} \n".format(org_misc_match, org_misc_no_match))
+	print("COM matches = {}, no_matches = {} \n".format(com_match, com_no_match))
+	print("GOV matches = {}, no_matches = {} \n".format(gov_match, gov_no_match))
+	print("NONE matches = {}, no_matches = {} \n".format(org_none_match, org_none_no_match))
 	#print("ORG matches = {}, no_matches = {} \n".format(match_org, no_match_org))
+	
+	for key, value in final_DL.items():
+		subcat = key.split("_")[1]
+		if subcat == "lijn":
+			print(key, value)
+		
 if __name__ == '__main__':
 	main()

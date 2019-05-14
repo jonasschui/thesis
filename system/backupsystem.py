@@ -1,5 +1,7 @@
 import pickle
 from collections import defaultdict
+from collections import Counter
+from heapq import nlargest
 
 # open the initial decision list made in insights.py
 def load_initial_DL():
@@ -20,22 +22,18 @@ def label_ne(unique,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list):
 	return True
 '''
 
-def weigh_features(temporary_DL):
-	return True
 
-def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_cat):
+
+def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_cat, mode):
 	# check which main cat it belongs to
-	string_list = ["punt","lijn","bc","water","none","regio","fictief","land","cont","heelal","ORG_none","ORG_misc","gov","com"]
-	bigram_ofptions = ["post_bi_un", "pre_bi_un"]
-	unigram_options = ["unique", "post_si_un", "pre_si_un"]
 	candidate_tags = []
 	retrieved_features = defaultdict(list)
+	match_found = False
 	if main_cat == "LOC":
+		remove_feats = []
 		# CAT_subcat_featurename, list
 		# keys are every subcat and their values
 		for key, value in decision_list.items():
-			feats_to_not_be_added = []
-			found_match = False
 			if main_cat == key[:3]:
 				# bi, si or unique(shown as subcat name)
 				bi_or_si = key.split("_")[-2]
@@ -47,64 +45,72 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 				# working with list of tuples ((bigram), weight)
 				
 				if bi_or_si == "bi":
-					for bigram, weigth in value:
+					for item in value:
+						bigram = item[0]
+						weight = item[1]
 						# see if there is a match in bigram features
 						if feat == "post_bi_un":
 							# see if the feature given matches a feature in the dictionary
 							if post_bi_un == bigram:
 								candidate_tags.append(tuple((subcat, weight)))
-								feats_to_not_be_added.append("LOC_{}_{}".format(subcat, feat))
-								found_match = True
-							# if feature does not match any yet put it in the dictionary as a possible new_feature
-							else:
-								retrieved_features["LOC_{}_{}".format(subcat, feat)] = post_bi_un
-								
-					
-						if feat == "pre_bi_un": 
+								match_found = True
+								remove_feats.append("post_bi_un")
+						elif feat == "pre_bi_un": 
 							if pre_bi_un == bigram:
 								candidate_tags.append(tuple((subcat, weight)))
-								feats_to_not_be_added.append("LOC_{}_{}".format(subcat, feat))
-								found_match = True
-							else:
-								retrieved_features["LOC_{}_{}".format(subcat, feat)] = pre_bi_un
+								match_found = True
+								remove_feats.append("pre_bi_un")
+							
 						
 
 				# working with list of tuples (string, weight)
 				else:
-					for string, weight in value:
+					for item in value:
+						string = item[0]
+						weight = item[1]
 						# see if there is a match in unigram of ne features
 						#print(key, string, weight)
 						if feat == "post_si_un":
 							if post_si_un == string:
 								candidate_tags.append(tuple((subcat, weight)))
-								feats_to_not_be_added.append("LOC_{}_{}".format(subcat, feat))
-								found_match = True
-							else:
-								retrieved_features["LOC_{}_{}".format(subcat, feat)] = post_si_un
-						if feat == "pre_si_un": 
+								match_found = True
+								remove_feats.append("post_si_un")
+						elif feat == "pre_si_un": 
 							if pre_si_un == string: 
 								candidate_tags.append(tuple((subcat, weight)))
-								feats_to_not_be_added.append("LOC_{}_{}".format(subcat, feat))
-								found_match = True
-							else:
-								retrieved_features["LOC_{}_{}".format(subcat, feat)] = pre_si_un
-						if feat == "unique":
+								match_found = True
+								remove_feats.append("pre_si_un")
+						elif feat == "unique":
 							if ne == string:
 								candidate_tags.append(tuple((subcat, weight)))
-								feats_to_not_be_added.append("LOC_{}_{}".format(subcat, feat))
-								found_match = True
-							else:
-								retrieved_features["LOC_{}_{}".format(subcat, feat)] = ne
-			# remove features to be added that are already in the decision list
-			if found_match == True:
-				for item in feats_to_not_be_added:
-					#print(retrieved_features)
-					retrieved_features.pop(item)
-					#print(retrieved_features)
-			#if found_match == False:
-			#	retrieved_features = {}
-	'''
+								match_found = True
+								remove_feats.append("unique")
+		w = 0
+		if len(candidate_tags) > 0:
+			for tag, weighted in candidate_tags:
+				if weighted >= w:
+					label = tag
+					w = weighted
+			retrieved_features["LOC_{}_post_bi_un".format(label)] = post_bi_un
+			retrieved_features["LOC_{}_pre_bi_un".format(label)] = pre_bi_un
+			retrieved_features["LOC_{}_post_si_un".format(label)] = post_si_un
+			retrieved_features["LOC_{}_pre_si_un".format(label)] = pre_si_un
+			retrieved_features["LOC_{}_unique".format(label)] = ne
+			# remove from suggested features the ones that are already in the decision list
+			for item in set(remove_feats):
+				key = "LOC_{}_{}".format(label, item)
+				retrieved_features.pop(key)
+			#print("HERE: ", label, retrieved_features)
+		else:
+			label = "none_found"
+			retrieved_features = defaultdict(list)
+		# add feature to certain subcategory
+		return label, retrieved_features
+	
 	if main_cat == "ORG":
+		remove_feats = []
+		# CAT_subcat_featurename, list
+		# keys are every subcat and their values
 		for key, value in decision_list.items():
 			if main_cat == key[:3]:
 				# bi, si or unique(shown as subcat name)
@@ -115,52 +121,129 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_c
 				subcat = key.split("_")[1]
 
 				# working with list of tuples ((bigram), weight)
+				
 				if bi_or_si == "bi":
-					for bigram, weigth in value:
+					for item in value:
+						bigram = item[0]
+						weight = item[1]
 						# see if there is a match in bigram features
 						if feat == "post_bi_un":
 							# see if the feature given matches a feature in the dictionary
 							if post_bi_un == bigram:
 								candidate_tags.append(tuple((subcat, weight)))
+								match_found = True
+								remove_feats.append("post_bi_un")
 						elif feat == "pre_bi_un": 
 							if pre_bi_un == bigram:
 								candidate_tags.append(tuple((subcat, weight)))
+								match_found = True
+								remove_feats.append("pre_bi_un")
+							
 						
 
 				# working with list of tuples (string, weight)
 				else:
-					for string, weight in value:
+					for item in value:
+						string = item[0]
+						weight = item[1]
 						# see if there is a match in unigram of ne features
 						#print(key, string, weight)
 						if feat == "post_si_un":
 							if post_si_un == string:
 								candidate_tags.append(tuple((subcat, weight)))
+								match_found = True
+								remove_feats.append("post_si_un")
 						elif feat == "pre_si_un": 
 							if pre_si_un == string: 
 								candidate_tags.append(tuple((subcat, weight)))
+								match_found = True
+								remove_feats.append("pre_si_un")
 						elif feat == "unique":
 							if ne == string:
 								candidate_tags.append(tuple((subcat, weight)))
-	'''
-	w = 0
-	if len(candidate_tags) > 0:
-		for tag, weighted in candidate_tags:
-			if weighted >= w:
-				label = tag
-				w = weighted
-		print("HERE: ", candidate_tags, retrieved_features)
-	else:
-		label = "none_found"
-		retrieved_features = {}
+								match_found = True
+								remove_feats.append("unique")
+		w = 0
+		if len(candidate_tags) > 0:
+			for tag, weighted in candidate_tags:
+				if weighted >= w:
+					label = tag
+					w = weighted
+			retrieved_features["ORG_{}_post_bi_un".format(label)] = post_bi_un
+			retrieved_features["ORG_{}_pre_bi_un".format(label)] = pre_bi_un
+			retrieved_features["ORG_{}_post_si_un".format(label)] = post_si_un
+			retrieved_features["ORG_{}_pre_si_un".format(label)] = pre_si_un
+			retrieved_features["ORG_{}_unique".format(label)] = ne
+			# remove from suggested features the ones that are already in the decision list
+			for item in set(remove_feats):
+				key = "ORG_{}_{}".format(label, item)
+				retrieved_features.pop(key)
+			#print("HERE: ", label, retrieved_features)
+		else:
+			label = "none_found"
+			retrieved_features = defaultdict(list)
+		# add feature to certain subcategory
+		return label, retrieved_features
+	if match_found == False:
+		return "none_found", defaultdict(list)
 	
-	# add feature to certain subcategory
-	return label, retrieved_features
+		
 
-def send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list):
-	label, retrieved_feats = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_cat)
+def send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list, mode):
+	label, retrieved_feats = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, decision_list, main_cat, mode)
 	return label, retrieved_feats
 
-def retrieve_new_features(decision_list, lines):
+def weigh_features(temporary_DL, mode):
+
+	# strenght = count(x,y) + alpha / count(x) +kalpha
+	# x = feature, y = feature class 
+	# count(x,y) is occurences of feature within that feature class
+	# count(x) is total occurences of feature in all classes
+	# alpha is smoothing parameter
+	# k is number of possible labels = 14
+	weighted_temp_DL = defaultdict(list)
+	k = 14
+	alpha = 0.1
+	for key_main, value in temporary_DL.items():
+		for featx in set(value):
+			# occurences within the key subcategory and feature
+			x = value.count(featx)
+			nominator = x + alpha
+			#print(featx, x)
+			# total occurences in the entire temporary DL
+			counter = 0
+			for key2, value2 in temporary_DL.items():
+				for item in value2:
+					if item == featx:
+						counter += 1
+			denominator = counter + (k*alpha)
+			weight_featx = (nominator/denominator)
+			if key_main not in weighted_temp_DL:
+				weighted_temp_DL[key_main] = [tuple((featx, weight_featx))]
+			else:
+				val = weighted_temp_DL.get(key_main)
+				val.append(tuple((featx, weight_featx)))
+				weighted_temp_DL[key_main] = val
+			
+	# get the top n weighted features per subcat/featurecat
+	if mode == "NORMAL":
+		for key, item in weighted_temp_DL.items():
+			weights = []
+			top_n_feats = []
+			for feature, w in item:
+				weights.append(w)
+			top_weights = nlargest(5, weights)
+			for feature, w in item:
+				if w in top_weights:
+					top_n_feats.append(tuple((feature, w)))
+			weighted_temp_DL[key] = top_n_feats
+	# add all features and weights on final iteration
+	elif mode == "FINAL":
+		weighted_temp_DL = weighted_temp_DL
+			
+	return weighted_temp_DL
+
+def retrieve_new_features(decision_list, lines, mode):
 	temporary_DL = defaultdict(list)
 	for i in range((len(lines)-4)):
 		line_one = lines[i]
@@ -188,11 +271,20 @@ def retrieve_new_features(decision_list, lines):
 				pre_si_un = "XXXXXXXX"				
 				
 				# label the NE
-				label, temp_dic_item = send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list)
+				label, temp_dic_item = send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list, mode)
 				if label != "none_found":
 					line_one.append(label)
-				# add the temporary features (without weight) to the temrorary_DL
-				
+					# add the temporary features (without weight) to the temrorary_DL
+					for key, value in temp_dic_item.items():
+						if key not in temporary_DL:
+							temporary_DL[key] = [value]
+						else:
+							val = temporary_DL.get(key)
+							val.append(value)
+							temporary_DL[key] = val
+					
+					
+
 		elif i == 1:
 			if len(line_two) == 5 and line_two[0] != "SENTENCE":
 				main_cat = line_two[3]
@@ -209,10 +301,19 @@ def retrieve_new_features(decision_list, lines):
 				pre_si_un = line_one[2]
 
 				# label the NE
-				label, temp_dic_item = send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list)
+				label, temp_dic_item = send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list, mode)
 				if label != "none_found":
 					line_two.append(label)
-
+					# add the temporary features (without weight) to the temrorary_DL
+					for key, value in temp_dic_item.items():
+						if key not in temporary_DL:
+							temporary_DL[key] = [value]
+						else:
+							val = temporary_DL.get(key)
+							val.append(value)
+							temporary_DL[key] = val
+					
+					
 		# for the rest of the document
 		else:
 			if len(line_three) == 5 and line_three[0] != "SENTENCE":
@@ -235,14 +336,26 @@ def retrieve_new_features(decision_list, lines):
 				pre_si_un = line_two[2]
 				
 				# label the NE
-				label, temp_dic_item = send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list)
+				label, temp_dic_item = send_to_subcat(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_list, mode)
 				if label != "none_found":
 					line_three.append(label)
+					# add the temporary features (without weight) to the temrorary_DL
+					for key, value in temp_dic_item.items():
+						if key not in temporary_DL:
+							temporary_DL[key] = [value]
+						else:
+							val = temporary_DL.get(key)
+							val.append(value)
+							temporary_DL[key] = val
+					
+					
 
 	# weight the features to get the top n new features per subcat to be added to the decision list
-	new_features = weigh_features(temporary_DL)
+	new_features = weigh_features(temporary_DL, mode)
 	# also return the newly labeled lines of which a feature matched
-	return new_features
+	if mode == "NORMAL" or mode == "FINAL":
+		return new_features, label
+	
 
 def main():
 	# read in intitial decision list as dictionary
@@ -274,8 +387,44 @@ def main():
 			lines.append(line)
 
 	# step1: iterate through data in search of NE
-	counter = 0
-	retrieve_new_features(initial_DL, lines)
+	
+	for i in range(90):
+		counter = 0
+		print(i)
+		new_decision_list, label = retrieve_new_features(initial_DL, lines, "NORMAL")
+		for key, value in new_decision_list.items():
+			if key not in initial_DL:
+				initial_DL[key] = value
+			else:
+				val = initial_DL.get(key)
+				for item in value:
+					val.append(item)
+				initial_DL[key] = val
+		for key, value in initial_DL.items():
+			counter += len(value)
+		print(counter, "\n")
+	# final iteration
+	print("HERE1")
+	new_decision_list, label = retrieve_new_features(initial_DL, lines, "FINAL")
+	for key, value in new_decision_list.items():
+			if key not in initial_DL:
+				initial_DL[key] = value
+			else:
+				val = initial_DL.get(key)
+				for item in value:
+					val.append(item)
+				initial_DL[key] = val
+	# label using the created decision list
+	count2 = 0
+	for key, value in initial_DL.items():
+		print(key,value)
+		count2 += len(value)
+	# export the final decsion list
+	f = open("../data/final_DL.pkl","wb")
+	pickle.dump(initial_DL,f)
+	f.close()
+	
+	
 
 	
 	
