@@ -225,6 +225,119 @@ def main():
 				# label the NE
 				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
 				#print(line_one, label)
+				if main_cat == "LOC":
+					label = label.upper()
+					subcat = line_one[-1].upper()
+					if subcat == label:
+						if label == "PUNT":
+							punt_match += 1
+						elif label == "LIJN":
+							lijn_match += 1
+						elif label == "BC":
+							bc_match += 1
+						elif label == "WATER":
+							water_match += 1
+						elif label == "NONE":
+							none_match += 1
+						elif label == "REGIO":
+							regio_match += 1
+						elif label == "FICTIEF":
+							fictief_match += 1
+						elif label == 'LAND':
+							land_match += 1
+						elif label == 'CONT':
+							cont_match += 1
+						elif label == 'HEELAL':
+							heelal_match += 1
+						else:
+							print(label)
+						match_loc += 1
+					else:
+						if label == "PUNT":
+							punt_no_match += 1
+							no_match_loc += 1
+						elif label == "LIJN":
+							lijn_no_match += 1
+							no_match_loc += 1
+						elif label == "BC":
+							bc_no_match += 1
+							no_match_loc += 1
+						elif label == "WATER":
+							water_no_match += 1
+							no_match_loc += 1
+						elif label == "NONE":
+							none_no_match += 1
+							no_match_loc += 1
+						elif label == "REGIO":
+							regio_no_match += 1
+							no_match_loc += 1
+						elif label == "FICTIEF":
+							ficitef_no_match += 1
+							no_match_loc += 1
+						elif label == 'LAND':
+							land_no_match += 1
+							no_match_loc += 1
+						elif label == 'CONT':
+							cont_no_match += 1
+							no_match_loc += 1
+						elif label == 'HEELAL':
+							heelal_no_match += 1
+							no_match_loc += 1
+						
+					if subcat == "PUNT":
+						punt_present += 1
+					elif subcat == "LIJN":
+						lijn_present += 1
+					elif subcat == "BC":
+						bc_present += 1
+					elif subcat == "WATER":
+						water_present += 1
+					elif subcat == "NONE":
+						none_present += 1
+					elif subcat == "REGIO":
+						regio_present += 1
+					elif subcat == "FICTIEF":
+						fictief_present += 1
+					elif subcat == 'LAND':
+						land_present += 1
+					elif subcat == 'CONT':
+						cont_present += 1
+					elif subcat == 'HEELAL':
+						heelal_present += 1
+					loc_present += 1
+						
+				if main_cat == "ORG":
+					label = label.upper()
+					subcat = line_one[-1].upper()
+					if subcat == label:
+						if label == "MISC":
+							org_misc_match += 1
+						elif label == "COM":
+							com_match += 1
+						elif label == "GOV":
+							gov_match += 1
+						elif label == "NONE":
+							org_none_match += 1
+						match_org += 1
+					else:
+						if subcat == "MISC":
+							org_misc_no_match += 1
+						elif subcat == "COM":
+							com_no_match += 1
+						elif subcat == "GOV":
+							gov_no_match += 1
+						elif subcat == "NONE":
+							org_none_no_match += 1
+						no_match_org += 1
+					if subcat == "MISC":
+						org_misc_present += 1
+					elif subcat == "COM":
+						com_present += 1
+					elif subcat == "GOV":
+						gov_present += 1
+					elif subcat == "NONE":
+						org_none_present += 1
+					org_present += 1
 					
 					
 		elif i == 1:
@@ -245,40 +358,9 @@ def main():
 				# label the NE
 				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
 				#print(line_two, label)
-					
-			
-					
-		# for the rest of the document
-		else:
-			if len(line_three) == 5 and line_three[0] != "SENTENCE":
-				main_cat = line_three[3]
-				if line_one[0] == "SENTENCE":
-					line_one = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
-				if line_two[0] == "SENTENCE":
-					line_one = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
-					line_two = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
-				if line_four[0] == "SENTENCE":
-					line_four = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
-					line_five = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
-				if line_five[0] == "SENTENCE":
-					line_five = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
-
-				ne = line_three[2]
-				post_bi_un =  tuple((line_four[2], line_five[2]))
-				pre_bi_un = tuple((line_one[2], line_two[2]))
-				post_si_un = line_four[2]
-				pre_si_un = line_two[2]
-				
-				# label the NE
-				string_list = []
-				for item in ["punt","lijn","bc","water","none","regio","fictief","land","cont","heelal","ORG_none","ORG_misc","gov","com"]:
-					string_list.append(item.upper())
-				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
-				if label == "none_found":
-					none_found += 1
 				if main_cat == "LOC":
 					label = label.upper()
-					subcat = line_three[-1].upper()
+					subcat = line_two[-1].upper()
 					if subcat == label:
 						if label == "PUNT":
 							punt_match += 1
@@ -325,6 +407,150 @@ def main():
 						elif label == 'HEELAL':
 							heelal_no_match += 1
 						no_match_loc += 1
+					if subcat == "PUNT":
+						punt_present += 1
+					elif subcat == "LIJN":
+						lijn_present += 1
+					elif subcat == "BC":
+						bc_present += 1
+					elif subcat == "WATER":
+						water_present += 1
+					elif subcat == "NONE":
+						none_present += 1
+					elif subcat == "REGIO":
+						regio_present += 1
+					elif subcat == "FICTIEF":
+						fictief_present += 1
+					elif subcat == 'LAND':
+						land_present += 1
+					elif subcat == 'CONT':
+						cont_present += 1
+					elif subcat == 'HEELAL':
+						heelal_present += 1
+					loc_present += 1
+						
+				if main_cat == "ORG":
+					label = label.upper()
+					subcat = line_two[-1].upper()
+					if subcat == label:
+						if label == "MISC":
+							org_misc_match += 1
+						elif label == "COM":
+							com_match += 1
+						elif label == "GOV":
+							gov_match += 1
+						elif label == "NONE":
+							org_none_match += 1
+						match_org += 1
+					else:
+						if subcat == "MISC":
+							org_misc_no_match += 1
+						elif subcat == "COM":
+							com_no_match += 1
+						elif subcat == "GOV":
+							gov_no_match += 1
+						elif subcat == "NONE":
+							org_none_no_match += 1
+						no_match_org += 1
+					if subcat == "MISC":
+						org_misc_present += 1
+					elif subcat == "COM":
+						com_present += 1
+					elif subcat == "GOV":
+						gov_present += 1
+					elif subcat == "NONE":
+						org_none_present += 1
+					org_present += 1
+					
+			
+					
+		# for the rest of the document
+		else:
+			if len(line_three) == 5 and line_three[0] != "SENTENCE":
+				main_cat = line_three[3]
+				if line_one[0] == "SENTENCE":
+					line_one = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
+				if line_two[0] == "SENTENCE":
+					line_one = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
+					line_two = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
+				if line_four[0] == "SENTENCE":
+					line_four = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
+					line_five = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
+				if line_five[0] == "SENTENCE":
+					line_five = ["XXXXXXXX","XXXXXXXX","XXXXXXXX"]
+
+				ne = line_three[2]
+				post_bi_un =  tuple((line_four[2], line_five[2]))
+				pre_bi_un = tuple((line_one[2], line_two[2]))
+				post_si_un = line_four[2]
+				pre_si_un = line_two[2]
+				
+				# label the NE
+				string_list = []
+				for item in ["punt","lijn","bc","water","none","regio","fictief","land","cont","heelal","ORG_none","ORG_misc","gov","com"]:
+					string_list.append(item.upper())
+				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
+				
+				if main_cat == "LOC":
+					if label == "none_found":
+						none_found += 1
+					label = label.upper()
+					subcat = line_three[-1].upper()
+					if subcat == label:
+						if label == "PUNT":
+							punt_match += 1
+						elif label == "LIJN":
+							lijn_match += 1
+						elif label == "BC":
+							bc_match += 1
+						elif label == "WATER":
+							water_match += 1
+						elif label == "NONE":
+							none_match += 1
+						elif label == "REGIO":
+							regio_match += 1
+						elif label == "FICTIEF":
+							fictief_match += 1
+						elif label == 'LAND':
+							land_match += 1
+						elif label == 'CONT':
+							cont_match += 1
+						elif label == 'HEELAL':
+							heelal_match += 1
+						else:
+							print(label)
+						match_loc += 1
+					else:
+						if label == "PUNT":
+							punt_no_match += 1
+							no_match_loc += 1
+						elif label == "LIJN":
+							lijn_no_match += 1
+							no_match_loc += 1
+						elif label == "BC":
+							bc_no_match += 1
+							no_match_loc += 1
+						elif label == "WATER":
+							water_no_match += 1
+							no_match_loc += 1
+						elif label == "NONE":
+							none_no_match += 1
+							no_match_loc += 1
+						elif label == "REGIO":
+							regio_no_match += 1
+							no_match_loc += 1
+						elif label == "FICTIEF":
+							ficitef_no_match += 1
+							no_match_loc += 1
+						elif label == 'LAND':
+							land_no_match += 1
+							no_match_loc += 1
+						elif label == 'CONT':
+							cont_no_match += 1
+							no_match_loc += 1
+						elif label == 'HEELAL':
+							heelal_no_match += 1
+							no_match_loc += 1
 					if subcat == "PUNT":
 						punt_present += 1
 					elif subcat == "LIJN":
@@ -402,7 +628,9 @@ def main():
 	
 	for key, value in final_DL.items():
 		subcat = key.split("_")[1]
-		if subcat == "misc":
+		feat = "_".join(key.split("_")[2:])
+		if subcat == "land":
+			#if feat == "unique":
 			print(key, value)
 	
 	print(none_found)
