@@ -17,37 +17,16 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_li
 				# the subcategory the feature is in
 				subcat = key.split("_")[1]
 
-				# working with list of tuples ((bigram), weight)
-				
-				if bi_or_si == "bi":
-					for item in value:
-						bigram = item[0]
-						weight = item[1]
-						# see if there is a match in bigram features
-						if feat == "post_bi_un":
-							# see if the feature given matches a feature in the dictionary
-							if post_bi_un == bigram:
-								candidate_tags.append(tuple((subcat, weight)))
-						elif feat == "pre_bi_un": 
-							if pre_bi_un == bigram:
-								candidate_tags.append(tuple((subcat, weight)))
-
 				# working with list of tuples (string, weight)
-				else:
-					for item in value:
-						string = item[0]
-						weight = item[1]
-						# see if there is a match in unigram of ne features
-						#print(key, string, weight)
-						if feat == "post_si_un":
-							if post_si_un == string:
-								candidate_tags.append(tuple((subcat, weight)))
-						elif feat == "pre_si_un": 
-							if pre_si_un == string: 
-								candidate_tags.append(tuple((subcat, weight)))
-						elif feat == "unique":
-							if ne == string:
-								candidate_tags.append(tuple((subcat, weight)))
+				
+				for item in value:
+					string = item[0]
+					weight = item[1]
+					# see if there is a match in unigram of ne features
+					#print(key, string, weight)
+					if feat == "unique":
+						if ne == string:
+							candidate_tags.append(tuple((subcat, weight)))
 		w = 0
 		if len(candidate_tags) > 0:
 			for tag, weighted in candidate_tags:
@@ -59,6 +38,8 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_li
 		# add feature to certain subcategory
 		return label
 	
+	# check which main cat it belongs to
+	candidate_tags = []
 	if main_cat == "ORG":
 		# keys are every subcat and their values
 		for key, value in decision_list.items():
@@ -70,37 +51,16 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_li
 				# the subcategory the feature is in
 				subcat = key.split("_")[1]
 
-				# working with list of tuples ((bigram), weight)
-				
-				if bi_or_si == "bi":
-					for item in value:
-						bigram = item[0]
-						weight = item[1]
-						# see if there is a match in bigram features
-						if feat == "post_bi_un":
-							# see if the feature given matches a feature in the dictionary
-							if post_bi_un == bigram:
-								candidate_tags.append(tuple((subcat, weight)))
-						elif feat == "pre_bi_un": 
-							if pre_bi_un == bigram:
-								candidate_tags.append(tuple((subcat, weight)))
-
 				# working with list of tuples (string, weight)
-				else:
-					for item in value:
-						string = item[0]
-						weight = item[1]
-						# see if there is a match in unigram of ne features
-						#print(key, string, weight)
-						if feat == "post_si_un":
-							if post_si_un == string:
-								candidate_tags.append(tuple((subcat, weight)))
-						elif feat == "pre_si_un": 
-							if pre_si_un == string: 
-								candidate_tags.append(tuple((subcat, weight)))
-						elif feat == "unique":
-							if ne == string:
-								candidate_tags.append(tuple((subcat, weight)))
+				
+				for item in value:
+					string = item[0]
+					weight = item[1]
+					# see if there is a match in unigram of ne features
+					#print(key, string, weight)
+					if feat == "unique":
+						if ne == string:
+							candidate_tags.append(tuple((subcat, weight)))
 		w = 0
 		if len(candidate_tags) > 0:
 			for tag, weighted in candidate_tags:
@@ -109,6 +69,7 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_li
 					w = weighted
 		else:
 			label = "none_found"
+		# add feature to certain subcategory
 		return label
 	
 
@@ -493,6 +454,7 @@ def main():
 				if label == "none_found":
 						none_found += 1
 				if main_cat == "LOC":
+					
 					label = label.upper()
 					subcat = line_three[-1].upper()
 					if subcat == label:
@@ -586,18 +548,15 @@ def main():
 							org_none_match += 1
 						match_org += 1
 					else:
-						if label == "MISC":
+						if subcat == "MISC":
 							org_misc_no_match += 1
-							no_match_org += 1
-						elif label == "COM":
+						elif subcat == "COM":
 							com_no_match += 1
-							no_match_org += 1
-						elif label == "GOV":
+						elif subcat == "GOV":
 							gov_no_match += 1
-							no_match_org += 1
-						elif label == "NONE":
+						elif subcat == "NONE":
 							org_none_no_match += 1
-							no_match_org += 1
+						no_match_org += 1
 					if subcat == "MISC":
 						org_misc_present += 1
 					elif subcat == "COM":
@@ -607,7 +566,8 @@ def main():
 					elif subcat == "NONE":
 						org_none_present += 1
 					org_present += 1
-	mode = "with all context using context to match"
+	
+	mode = "using context to build rules but only spelling to match"
 	print("mode = {} \n".format(mode))
 	print("LOC \n")
 	print("LOC matches = {}, no_matches = {} ,present = {}, precision = {}, recall = {}  \n".format(match_loc, no_match_loc,loc_present, precision(match_loc, no_match_loc), recall(match_loc,loc_present)))
@@ -633,9 +593,9 @@ def main():
 	for key, value in final_DL.items():
 		subcat = key.split("_")[1]
 		feat = "_".join(key.split("_")[2:])
-		if subcat == "land":
-			#if feat == "unique":
-			print(key, value)
+		if subcat == "regio":
+			if feat == "unique":
+				print(key, value)
 	'''
 	print(none_found)
 
