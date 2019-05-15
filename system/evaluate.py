@@ -629,14 +629,14 @@ def main():
 	print("GOV matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(gov_match, gov_no_match,gov_present, precision(gov_match, gov_no_match), recall(gov_match,gov_present)))
 	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(org_none_match, org_none_no_match,org_none_present, precision(org_none_match, org_none_no_match), recall(org_none_match,org_none_present)))
 	#print("ORG matches = {}, no_matches = {} \n".format(match_org, no_match_org))
-	'''
+	
 	for key, value in final_DL.items():
 		subcat = key.split("_")[1]
 		feat = "_".join(key.split("_")[2:])
-		if subcat == "land":
+		if subcat == "bc":
 			#if feat == "unique":
 			print(key, value)
-	'''
+	
 	print(none_found)
 
 if __name__ == '__main__':

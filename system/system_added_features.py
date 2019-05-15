@@ -2,6 +2,7 @@ import pickle
 from collections import defaultdict
 from collections import Counter
 from heapq import nlargest
+import csv
 
 #from nltk.corpus import stopwords
 #import nltk
@@ -600,10 +601,35 @@ def manually_add_to_initital_DL(decision_list):
 			for item in conts:
 				val.append(tuple((item, 0.8)))
 			decision_list[key] = val
+		
+		if key == "LOC_bc_unique":		
+			municipalities = []
+			val = decision_list.get(key)
+			with open('../secundary_features/municipalities_v7.csv') as csvfile:
+				readCSV = csv.reader(csvfile, delimiter=',')
+				for row in readCSV:
+					municipalities.append(row[2])
+			for item in municipalities:
+				val.append(tuple((item, 0.8)))
+			decision_list[key] = val
 
-		#if key == "
+		if key == "LOC_land_unique":		
+			countries = []
+			val = decision_list.get(key)
+			with open('../secundary_features/countries_of_the_world.csv') as csvfile:
+				readCSV = csv.reader(csvfile, delimiter=',')
+				next(readCSV)
+				for row in readCSV:
+					countries.append(row[0])
 			
-	
+			trans_countries = ['Afghanistan', 'Albanië', 'Algerije', 'Amerikaans Samoa', 'Andorra', 'Angola', 'Anguilla', 'Antigua & Barbuda', 'Argentinië', 'Armenië', 'Aruba', 'Australië' , 'Oostenrijk', 'Azerbeidzjan', 'Bahama\'s', 'De', 'Bahrein', 'Bangladesh', 'Barbados', 'Wit-Rusland', 'België', 'Belize', 'Benin', 'Bermuda', 'Bhutan' , 'Bolivia', 'Bosnia & Herzegovina', 'Botswana', 'Brazil', 'British Virgin Is. ',' Brunei ',' Bulgarije ',' Burkina Faso ',' Burma ',' Burundi ',' Cambodja ',' Kameroen ',' Canada ',' Kaapverdië ',' Caymaneilanden ',' Centraal-Afrikaanse Rep. ',' Tsjaad ',' Chili ',' China ',' Colombia ',' Comoren ',' Congo, Dem. Rep. ',' Congo, Repub. van de ',' Cookeilanden ',' Costa Rica ',' Ivoorkust ',' Kroatië ',' Cuba ',' Cyprus ',' Tsjechische Republiek ',' Denemarken ',' Djibouti ',' Dominica ', 'Dominicaanse Republiek', 'Oost-Timor', 'Ecuador', 'Egypte', "El Salvador", "Equatoriaal Guinea", "Eritrea", "Estland", "Ethiopië", "Faeröer", "Fiji", "Finland", "Frankrijk", "Frans Guyana", "Frans Polynesië", 'Gabon', 'Gambia, The', 'Gaza Strip', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam' , 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia ',' Iran ',' Irak ',' Ierland ',' Isle of Man ',' Israel ',' Italië ',' Jamaica ',' Japan ',' Jersey ',' Jordan ',' Kazakhstan ',' Kenia ',' Kiribati ',' Korea, Noord ',' Korea, Zuid ',' Koeweit ',' Kirgizië ',' Laos ',' Letland ',' Libanon ',' Lesotho ',' Liberia ',' Libië ', 'Liechtenstein', 'Litouwen', 'Luxemburg', 'Macau', 'Macedonië', 'Madagaskar', 'Malawi', 'Maleisië', 'Malediven', 'Mali', 'Malta', 'Marshall-eilanden', ' Martinique ',' Mauritania ',' Mauritius ',' Mayotte ',' Mexico ',' Micronesia', 'Fed. St.', 'Moldavië', 'Monaco', 'Mongolië', 'Montserrat', 'Marokko', 'Mozambique', 'Namibië', 'Nauru', 'Nepal', 'Nederland', 'Nederlandse Antillen', 'Nieuw-Caledonië', 'Nieuw-Zeeland', 'Nicaragua', 'Niger', 'Nigeria', 'N. Mariana-eilanden', 'Noorwegen', 'Oman', 'Pakistan', 'Palau', 'Panama', 'Papoea-Nieuw-Guinea', 'Paraguay', 'Peru', 'Filippijnen', 'Polen', 'Portugal', 'Puerto Rico', 'Qatar', 'Reunion', 'Romania', 'Russia', 'Rwanda', 'Saint Helena', 'Saint Kitts & Nevis', 'Saint Lucia', 'St Pierre & Miquelon', ' Saint Vincent and the Grenadines ',' Samoa ',' San Marino ',' Sao Tome & Principe ',' Saudi Arabia ',' Senegal ',' Serbia ',' Seychelles ',' Sierra Leone ',' Singapore ',' Slowakije, Slovenië, Solomon-eilanden, Somalië, Zuid-Afrika, Spanje, Sri Lanka, Sudan, Suriname, Swaziland, Zweden, Zwitserland', 'Syrië', 'Taiwan', 'Tadzjikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad & Tobago', 'Tunesië', 'Turkije', 'Turkmenistan', 'Turks- en Caicoseilanden', 'Is ',' Tuvalu ',' Uganda ',' Ukraine ',' United Arab Emirates ',' United Kingdom ',' United States ',' Uruguay ',' Uzbekistan ',' Vanuatu ',' Venezuela ',' Vietnam ' , 'Virgin Islands', 'Wallis an d Futuna ',' West Bank ',' Western Sahara ',' Yemen ',' Zambia ',' Zimbabwe ']
+			for item in trans_countries:
+				val.append(tuple((item.strip(), 0.8)))
+			decision_list[key] = val
+
+
+
+
 	return decision_list
 def main():
 	# read in intitial decision list as dictionary
@@ -716,7 +742,7 @@ def main():
 		
 	# export the final decsion list
 	f = open("../data/final_DL.pkl","wb")
-	pickle.dump(final_DL,f)
+	pickle.dump(initial_DL,f)
 	f.close()
 	
 	
