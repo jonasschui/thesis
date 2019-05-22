@@ -56,7 +56,7 @@ def main():
 	#test_list = ["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","b","b","b","c","c","c","c","c","c","c","c","c","c","d","d","e"]
 	#print(at_least_five(test_list, "test"))
 	#exit()
-	infile = open("../data/using_development/SoNaR1_devcut_training.txt", "r",encoding="utf8")
+	infile = open("../data/SoNaR1_training.txt", "r",encoding="utf8")
 	next(infile)
 	main_cats = ["PER", "LOC" , "ORG" , "PRO", "EVE", "MISC"]
 	per = []
