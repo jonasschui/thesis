@@ -291,7 +291,7 @@ def weigh_features(temporary_DL, mode):
 			for feature, w in item:
 				weights.append(w)
 			#print(weights)
-			top_weights = nlargest(10, weights)
+			top_weights = nlargest(15, weights)
 			#print(top_weights)
 			for feature, w in item:
 				if w in top_weights:
@@ -306,7 +306,7 @@ def weigh_features(temporary_DL, mode):
 			for feature, w in item:
 				weights.append(w)
 			#print(weights)
-			top_weights = nlargest(10, weights)
+			top_weights = nlargest(100000000000000000, weights)
 			#print(top_weights)
 			for feature, w in item:
 				if w in top_weights:
@@ -439,7 +439,7 @@ def retrieve_new_context(decision_list, lines, mode):
 							val = contextual_temp_DL.get(key)
 							strings = []
 							for unit in decision_list.get(key):
-								strings.append(unit[0])							
+								strings.append(unit[0])	
 							if value not in strings:
 								val.append(value)
 							contextual_temp_DL[key] = val
@@ -501,6 +501,7 @@ def retrieve_new_spelling(decision_list, lines, mode):
 							if value not in strings:
 								val.append(value)
 							spelling_temp_DL[key] = val
+					line_one.append(label)
 					
 
 		elif i == 1:
@@ -537,7 +538,7 @@ def retrieve_new_spelling(decision_list, lines, mode):
 							if value not in strings:
 								val.append(value)
 							spelling_temp_DL[key] = val
-					
+					line_two.append(label)
 					
 		# for the rest of the document
 		else:
@@ -579,7 +580,7 @@ def retrieve_new_spelling(decision_list, lines, mode):
 							if value not in strings:
 								val.append(value)
 							spelling_temp_DL[key] = val
-					
+					line_three.append(label)
 					
 
 	# weight the features to get the top n new features per subcat to be added to the decision list
@@ -616,17 +617,17 @@ def main():
 	list_of_feature_keys = initial_DL.keys()
 	# add weight of 1 for initial decision list items
 	for key, value in initial_DL.items():
-		weight = float(1)
+		weight = float(0.99)
 		weighted_feats = []
 		for feature in value:
 			feature = tuple((feature, weight))
 			weighted_feats.append(feature)
 		initial_DL[key] = weighted_feats
 
-	initial_DL = manually_add_to_initital_DL(initial_DL)
+	#initial_DL = manually_add_to_initital_DL(initial_DL)
 	# read in dataset
 	lines = []
-	infile = open("../data/using_development/SoNaR1_dev.txt", "r",encoding="utf8")
+	infile = open("../data/SoNaR1_training.txt", "r",encoding="utf8")
 	next(infile)
 	for line in infile:
 		line = line.rstrip().split("\t")
@@ -635,7 +636,7 @@ def main():
 
 	# step1: iterate through data in search of NE
 	track = 0
-	for i in range(90):
+	for i in range(250):
 		counter = 0
 		print(i)
 		new_context = retrieve_new_context(initial_DL, lines, "NORMAL")
@@ -712,6 +713,28 @@ def main():
 			final_DL[key] = val
 	for key, item in final_DL.items():
 		print(key, len(item))
+
+	# do one last iteration adding all found rules on the last iteration regardless of weight or type
+
+	new_context = retrieve_new_context(final_DL, lines, "FINAL")
+	# add the found context rules tot the decision list
+	for key, value in new_context.items():
+		if key not in initial_DL:
+			final_DL[key] = value
+		else:
+			val = final_DL.get(key)
+			for item in value:
+				val.append(item)
+			final_DL[key] = val
+	new_spelling = retrieve_new_spelling(final_DL, lines, "FINAL")
+	for key, value in new_spelling.items():
+		if key not in final_DL:
+			final_DL[key] = value
+		else:
+			val = final_DL.get(key)
+			for item in value:
+				val.append(item)
+			final_DL[key] = val
 					
 		
 	# export the final decsion list

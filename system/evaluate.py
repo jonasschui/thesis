@@ -237,8 +237,7 @@ def main():
 							bc_match += 1
 						elif label == "WATER":
 							water_match += 1
-						elif label == "NONE":
-							none_match += 1
+						
 						elif label == "REGIO":
 							regio_match += 1
 						elif label == "FICTIEF":
@@ -265,9 +264,7 @@ def main():
 						elif label == "WATER":
 							water_no_match += 1
 							no_match_loc += 1
-						elif label == "NONE":
-							none_no_match += 1
-							no_match_loc += 1
+						
 						elif label == "REGIO":
 							regio_no_match += 1
 							no_match_loc += 1
@@ -292,8 +289,7 @@ def main():
 						bc_present += 1
 					elif subcat == "WATER":
 						water_present += 1
-					elif subcat == "NONE":
-						none_present += 1
+					
 					elif subcat == "REGIO":
 						regio_present += 1
 					elif subcat == "FICTIEF":
@@ -316,8 +312,6 @@ def main():
 							com_match += 1
 						elif label == "GOV":
 							gov_match += 1
-						elif label == "NONE":
-							org_none_match += 1
 						match_org += 1
 					else:
 						if subcat == "MISC":
@@ -326,8 +320,7 @@ def main():
 							com_no_match += 1
 						elif subcat == "GOV":
 							gov_no_match += 1
-						elif subcat == "NONE":
-							org_none_no_match += 1
+						
 						no_match_org += 1
 					if subcat == "MISC":
 						org_misc_present += 1
@@ -335,8 +328,7 @@ def main():
 						com_present += 1
 					elif subcat == "GOV":
 						gov_present += 1
-					elif subcat == "NONE":
-						org_none_present += 1
+					
 					org_present += 1
 					
 					
@@ -370,8 +362,7 @@ def main():
 							bc_match += 1
 						elif label == "WATER":
 							water_match += 1
-						elif label == "NONE":
-							none_match += 1
+						
 						elif label == "REGIO":
 							regio_match += 1
 						elif label == "FICTIEF":
@@ -394,12 +385,11 @@ def main():
 							bc_no_match += 1
 						elif label == "WATER":
 							water_no_match += 1
-						elif label == "NONE":
-							none_no_match += 1
+						
 						elif label == "REGIO":
 							regio_no_match += 1
 						elif label == "FICTIEF":
-							ficitef_no_match += 1
+							fictief_no_match += 1
 						elif label == 'LAND':
 							land_no_match += 1
 						elif label == 'CONT':
@@ -415,8 +405,7 @@ def main():
 						bc_present += 1
 					elif subcat == "WATER":
 						water_present += 1
-					elif subcat == "NONE":
-						none_present += 1
+					
 					elif subcat == "REGIO":
 						regio_present += 1
 					elif subcat == "FICTIEF":
@@ -439,8 +428,7 @@ def main():
 							com_match += 1
 						elif label == "GOV":
 							gov_match += 1
-						elif label == "NONE":
-							org_none_match += 1
+						
 						match_org += 1
 					else:
 						if subcat == "MISC":
@@ -449,8 +437,7 @@ def main():
 							com_no_match += 1
 						elif subcat == "GOV":
 							gov_no_match += 1
-						elif subcat == "NONE":
-							org_none_no_match += 1
+						
 						no_match_org += 1
 					if subcat == "MISC":
 						org_misc_present += 1
@@ -458,8 +445,7 @@ def main():
 						com_present += 1
 					elif subcat == "GOV":
 						gov_present += 1
-					elif subcat == "NONE":
-						org_none_present += 1
+					
 					org_present += 1
 					
 			
@@ -504,8 +490,7 @@ def main():
 							bc_match += 1
 						elif label == "WATER":
 							water_match += 1
-						elif label == "NONE":
-							none_match += 1
+						
 						elif label == "REGIO":
 							regio_match += 1
 						elif label == "FICTIEF":
@@ -532,14 +517,12 @@ def main():
 						elif label == "WATER":
 							water_no_match += 1
 							no_match_loc += 1
-						elif label == "NONE":
-							none_no_match += 1
-							no_match_loc += 1
+						
 						elif label == "REGIO":
 							regio_no_match += 1
 							no_match_loc += 1
 						elif label == "FICTIEF":
-							ficitef_no_match += 1
+							fictief_no_match += 1
 							no_match_loc += 1
 						elif label == 'LAND':
 							land_no_match += 1
@@ -558,8 +541,7 @@ def main():
 						bc_present += 1
 					elif subcat == "WATER":
 						water_present += 1
-					elif subcat == "NONE":
-						none_present += 1
+					
 					elif subcat == "REGIO":
 						regio_present += 1
 					elif subcat == "FICTIEF":
@@ -582,8 +564,7 @@ def main():
 							com_match += 1
 						elif label == "GOV":
 							gov_match += 1
-						elif label == "NONE":
-							org_none_match += 1
+						
 						match_org += 1
 					else:
 						if label == "MISC":
@@ -595,19 +576,16 @@ def main():
 						elif label == "GOV":
 							gov_no_match += 1
 							no_match_org += 1
-						elif label == "NONE":
-							org_none_no_match += 1
-							no_match_org += 1
+						
 					if subcat == "MISC":
 						org_misc_present += 1
 					elif subcat == "COM":
 						com_present += 1
 					elif subcat == "GOV":
 						gov_present += 1
-					elif subcat == "NONE":
-						org_none_present += 1
+					
 					org_present += 1
-	mode = "with all context using context to match"
+	mode = "n = 15"
 	print("mode = {} \n".format(mode))
 	print("LOC \n")
 	print("LOC matches = {}, no_matches = {} ,present = {}, precision = {}, recall = {}  \n".format(match_loc, no_match_loc,loc_present, precision(match_loc, no_match_loc), recall(match_loc,loc_present)))
@@ -615,7 +593,8 @@ def main():
 	print("LIJN matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(lijn_match, lijn_no_match,lijn_present, precision(lijn_match, lijn_no_match), recall(lijn_match,lijn_present)))
 	print("BC matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(bc_match, bc_no_match,bc_present, precision(bc_match, bc_no_match), recall(bc_match,bc_present)))
 	print("WATER matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(water_match, water_no_match,water_present, precision(water_match, water_no_match), recall(water_match,water_present)))
-	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(none_match, none_no_match,none_present, precision(none_match, none_no_match), recall(none_match,none_present)))
+	'''
+	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(none_match, none_no_match,none_present, precision(none_match, none_no_match), recall(none_match,none_present)))'''
 	print("REGIO matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(regio_match, regio_no_match,regio_present, precision(regio_match, regio_no_match), recall(regio_match,regio_present)))
 	print("FICTIEF matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(fictief_match, fictief_no_match,fictief_present, precision(fictief_match, fictief_no_match), recall(fictief_match,fictief_present)))
 	print("LAND matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(land_match, land_no_match,land_present, precision(land_match, land_no_match), recall(land_match,land_present)))
@@ -627,16 +606,17 @@ def main():
 	print("MISC matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(org_misc_match, org_misc_no_match,org_misc_present, precision(org_misc_match, org_misc_no_match), recall(org_misc_match,org_misc_present)))
 	print("COM matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(com_match, com_no_match,com_present, precision(com_match, com_no_match), recall(com_match,com_present)))
 	print("GOV matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(gov_match, gov_no_match,gov_present, precision(gov_match, gov_no_match), recall(gov_match,gov_present)))
-	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(org_none_match, org_none_no_match,org_none_present, precision(org_none_match, org_none_no_match), recall(org_none_match,org_none_present)))
+	'''	
+	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(org_none_match, org_none_no_match,org_none_present, precision(org_none_match, org_none_no_match), recall(org_none_match,org_none_present)))'''
 	#print("ORG matches = {}, no_matches = {} \n".format(match_org, no_match_org))
-	
+	'''
 	for key, value in final_DL.items():
 		subcat = key.split("_")[1]
 		feat = "_".join(key.split("_")[2:])
 		if subcat == "bc":
 			#if feat == "unique":
 			print(key, value)
-	
+	'''
 	print(none_found)
 
 if __name__ == '__main__':
