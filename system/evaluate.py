@@ -122,14 +122,21 @@ def precision(match, no_match):
 	if no_match == 0:
 		return 1
 	precision = (match/(match+no_match))
-	return precision
+	return round(precision, 2)
 	
 def recall(match, present):
 	if present == 0:
 		return 1
 	recall = (match/present)
-	return recall
+	return round(recall, 2)
 
+def f1_measure(precision, recall):
+	if precision == 0 and recall == 0:
+		return 0
+	numerator = (2* precision * recall)
+	denominator = precision + recall
+	f = numerator/denominator
+	return round(f, 2)
 def main():
 	final_DL = load_final_DL()
 	lines = []
@@ -585,27 +592,27 @@ def main():
 						gov_present += 1
 					
 					org_present += 1
-	mode = "n = 15"
+	mode = "n =20 k = 12"
 	print("mode = {} \n".format(mode))
 	print("LOC \n")
-	print("LOC matches = {}, no_matches = {} ,present = {}, precision = {}, recall = {}  \n".format(match_loc, no_match_loc,loc_present, precision(match_loc, no_match_loc), recall(match_loc,loc_present)))
-	print("PUNT matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(punt_match, punt_no_match,punt_present, precision(punt_match, punt_no_match), recall(punt_match,punt_present)))
-	print("LIJN matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(lijn_match, lijn_no_match,lijn_present, precision(lijn_match, lijn_no_match), recall(lijn_match,lijn_present)))
-	print("BC matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(bc_match, bc_no_match,bc_present, precision(bc_match, bc_no_match), recall(bc_match,bc_present)))
-	print("WATER matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(water_match, water_no_match,water_present, precision(water_match, water_no_match), recall(water_match,water_present)))
+	print("LOC matches = {}, no_matches = {} ,present = {}, precision = {}, recall = {}, f1_score = {}  \n".format(match_loc, no_match_loc,loc_present, precision(match_loc, no_match_loc), recall(match_loc,loc_present),f1_measure(precision(match_loc, no_match_loc), recall(match_loc,loc_present))))
+	print("PUNT matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(punt_match, punt_no_match,punt_present, precision(punt_match, punt_no_match), recall(punt_match,punt_present),f1_measure(precision(punt_match, punt_no_match), recall(punt_match,punt_present))))
+	print("LIJN matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(lijn_match, lijn_no_match,lijn_present, precision(lijn_match, lijn_no_match), recall(lijn_match,lijn_present),f1_measure(precision(lijn_match, lijn_no_match), recall(lijn_match,lijn_present))))
+	print("BC matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(bc_match, bc_no_match,bc_present, precision(bc_match, bc_no_match), recall(bc_match,bc_present),f1_measure(precision(bc_match, bc_no_match), recall(bc_match,bc_present))))
+	print("WATER matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(water_match, water_no_match,water_present, precision(water_match, water_no_match), recall(water_match,water_present),f1_measure(precision(water_match, water_no_match), recall(water_match,water_present))))
 	'''
 	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(none_match, none_no_match,none_present, precision(none_match, none_no_match), recall(none_match,none_present)))'''
-	print("REGIO matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(regio_match, regio_no_match,regio_present, precision(regio_match, regio_no_match), recall(regio_match,regio_present)))
-	print("FICTIEF matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(fictief_match, fictief_no_match,fictief_present, precision(fictief_match, fictief_no_match), recall(fictief_match,fictief_present)))
-	print("LAND matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(land_match, land_no_match,land_present, precision(land_match, land_no_match), recall(land_match,land_present)))
-	print("CONT matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(cont_match, cont_no_match,cont_present, precision(cont_match, cont_no_match), recall(cont_match,cont_present)))
-	print("HEELAL matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(heelal_match, heelal_no_match, heelal_present, precision(heelal_match, heelal_no_match), recall(heelal_match, heelal_present)))
+	print("REGIO matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(regio_match, regio_no_match,regio_present, precision(regio_match, regio_no_match), recall(regio_match,regio_present),f1_measure(precision(regio_match, regio_no_match), recall(regio_match,regio_present))))
+	print("FICTIEF matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(fictief_match, fictief_no_match,fictief_present, precision(fictief_match, fictief_no_match), recall(fictief_match,fictief_present),f1_measure(precision(fictief_match, fictief_no_match), recall(fictief_match,fictief_present))))
+	print("LAND matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(land_match, land_no_match,land_present, precision(land_match, land_no_match), recall(land_match,land_present),f1_measure(precision(land_match, land_no_match), recall(land_match,land_present))))
+	print("CONT matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(cont_match, cont_no_match,cont_present, precision(cont_match, cont_no_match), recall(cont_match,cont_present),f1_measure(precision(cont_match, cont_no_match), recall(cont_match,cont_present))))
+	print("HEELAL matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(heelal_match, heelal_no_match, heelal_present, precision(heelal_match, heelal_no_match), recall(heelal_match, heelal_present),f1_measure(precision(heelal_match, heelal_no_match), recall(heelal_match, heelal_present))))
 
 	print("\n ORG \n") 
-	print("ORG matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(match_org, no_match_org,org_present, precision(match_org, no_match_org), recall(match_org,org_present)))
-	print("MISC matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(org_misc_match, org_misc_no_match,org_misc_present, precision(org_misc_match, org_misc_no_match), recall(org_misc_match,org_misc_present)))
-	print("COM matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(com_match, com_no_match,com_present, precision(com_match, com_no_match), recall(com_match,com_present)))
-	print("GOV matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(gov_match, gov_no_match,gov_present, precision(gov_match, gov_no_match), recall(gov_match,gov_present)))
+	print("ORG matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(match_org, no_match_org,org_present, precision(match_org, no_match_org), recall(match_org,org_present),f1_measure(precision(match_org, no_match_org), recall(match_org,org_present))))
+	print("MISC matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(org_misc_match, org_misc_no_match,org_misc_present, precision(org_misc_match, org_misc_no_match), recall(org_misc_match,org_misc_present),f1_measure(precision(org_misc_match, org_misc_no_match), recall(org_misc_match,org_misc_present))))
+	print("COM matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(com_match, com_no_match,com_present, precision(com_match, com_no_match), recall(com_match,com_present),f1_measure(precision(com_match, com_no_match), recall(com_match,com_present))))
+	print("GOV matches = {}, no_matches = {},present = {}, precision = {}, recall = {}, f1_score = {} \n".format(gov_match, gov_no_match,gov_present, precision(gov_match, gov_no_match), recall(gov_match,gov_present),f1_measure(precision(gov_match, gov_no_match), recall(gov_match,gov_present))))
 	'''	
 	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(org_none_match, org_none_no_match,org_none_present, precision(org_none_match, org_none_no_match), recall(org_none_match,org_none_present)))'''
 	#print("ORG matches = {}, no_matches = {} \n".format(match_org, no_match_org))
@@ -619,5 +626,24 @@ def main():
 	'''
 	print(none_found)
 
+	print("\n For LateX n = 5 k = 12") 
+	print("LOC overall & {} & {} & {} & {} & {} & {}  \n".format(match_loc, no_match_loc,loc_present, precision(match_loc, no_match_loc), recall(match_loc,loc_present),f1_measure(precision(match_loc, no_match_loc), recall(match_loc,loc_present))))
+	print("POINT & {} & {} & {} & {} & {} & {}  \n".format(punt_match, punt_no_match,punt_present, precision(punt_match, punt_no_match), recall(punt_match,punt_present),f1_measure(precision(punt_match, punt_no_match), recall(punt_match,punt_present))))
+	print("LINE & {} & {} & {} & {} & {} & {}  \n".format(lijn_match, lijn_no_match,lijn_present, precision(lijn_match, lijn_no_match), recall(lijn_match,lijn_present),f1_measure(precision(lijn_match, lijn_no_match), recall(lijn_match,lijn_present))))
+	print("PC & {} & {} & {} & {} & {} & {}  \n".format(bc_match, bc_no_match,bc_present, precision(bc_match, bc_no_match), recall(bc_match,bc_present),f1_measure(precision(bc_match, bc_no_match), recall(bc_match,bc_present))))
+	print("WATER & {} & {} & {} & {} & {} & {}  \n".format(water_match, water_no_match,water_present, precision(water_match, water_no_match), recall(water_match,water_present),f1_measure(precision(water_match, water_no_match), recall(water_match,water_present))))
+	'''
+	print("NONE matches = {}, no_matches = {},present = {}, precision = {}, recall = {} \n".format(none_match, none_no_match,none_present, precision(none_match, none_no_match), recall(none_match,none_present)))'''
+	print("REGION & {} & {} & {} & {} & {} & {}  \n".format(regio_match, regio_no_match,regio_present, precision(regio_match, regio_no_match), recall(regio_match,regio_present),f1_measure(precision(regio_match, regio_no_match), recall(regio_match,regio_present))))
+	print("FICTION & {} & {} & {} & {} & {} & {}  \n".format(fictief_match, fictief_no_match,fictief_present, precision(fictief_match, fictief_no_match), recall(fictief_match,fictief_present),f1_measure(precision(fictief_match, fictief_no_match), recall(fictief_match,fictief_present))))
+	print("COUNTRY & {} & {} & {} & {} & {} & {}  \n".format(land_match, land_no_match,land_present, precision(land_match, land_no_match), recall(land_match,land_present),f1_measure(precision(land_match, land_no_match), recall(land_match,land_present))))
+	print("CONTINENT & {} & {} & {} & {} & {} & {}  \n".format(cont_match, cont_no_match,cont_present, precision(cont_match, cont_no_match), recall(cont_match,cont_present),f1_measure(precision(cont_match, cont_no_match), recall(cont_match,cont_present))))
+	print("COSMOS & {} & {} & {} & {} & {} & {}  \n".format(heelal_match, heelal_no_match, heelal_present, precision(heelal_match, heelal_no_match), recall(heelal_match, heelal_present),f1_measure(precision(heelal_match, heelal_no_match), recall(heelal_match, heelal_present))))
+
+	print("ORG overall & {} & {} & {} & {} & {} & {}  \n".format(match_org, no_match_org,org_present, precision(match_org, no_match_org), recall(match_org,org_present),f1_measure(precision(match_org, no_match_org), recall(match_org,org_present))))
+	print("MISC & {} & {} & {} & {} & {} & {}  \n".format(org_misc_match, org_misc_no_match,org_misc_present, precision(org_misc_match, org_misc_no_match), recall(org_misc_match,org_misc_present),f1_measure(precision(org_misc_match, org_misc_no_match), recall(org_misc_match,org_misc_present))))
+	print("COMPANY &  {} & {} & {} & {} & {} & {}  \n".format(com_match, com_no_match,com_present, precision(com_match, com_no_match), recall(com_match,com_present),f1_measure(precision(com_match, com_no_match), recall(com_match,com_present))))
+	print("GOVERNMENT & {} & {} & {} & {} & {} & {}  \n".format(gov_match, gov_no_match,gov_present, precision(gov_match, gov_no_match), recall(gov_match,gov_present),f1_measure(precision(gov_match, gov_no_match), recall(gov_match,gov_present))))
+		
 if __name__ == '__main__':
 	main()

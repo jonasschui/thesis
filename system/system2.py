@@ -250,39 +250,71 @@ def weigh_features(temporary_DL, mode):
 	# alpha is smoothing parameter
 	# k is number of possible labels = 14
 	weighted_temp_DL = defaultdict(list)
-	k = 14
 	alpha = 0.1
 	for key_main, value in temporary_DL.items():
-		for featx in set(value):
-			# occurences within the key subcategory and feature
-			x = value.count(featx)
-			nominator = x + alpha
-			#print(featx, x)
-			# total occurences in the entire temporary DL
-			counter = 0
-			for key2, value2 in temporary_DL.items():
-				for item in value2:
-					if item == featx:
-						counter += 1
-			if mode == "NORMAL":
-				if counter == 1:
-					weight_featx = 0
+		mc = key_main.split("_")[0]
+		if mc == "LOC":
+			k = 12
+			for featx in set(value):
+				# occurences within the key subcategory and feature
+				x = value.count(featx)
+				nominator = x + alpha
+				#print(featx, x)
+				# total occurences in the entire temporary DL
+				counter = 0
+				for key2, value2 in temporary_DL.items():
+					for item in value2:
+						if item == featx:
+							counter += 1
+				if mode == "NORMAL":
+					if counter == 1:
+						weight_featx = 0
+					else:
+						denominator = counter + (k)
+						weight_featx = (nominator/denominator)
+				if mode == "FINAL":
+					if counter == 1:
+						weight_featx = 0
+					else:
+						denominator = counter + (k)
+						weight_featx = (nominator/denominator)
+				if key_main not in weighted_temp_DL:
+					weighted_temp_DL[key_main] = [tuple((featx, weight_featx))]
 				else:
-					denominator = counter + (k)
-					weight_featx = (nominator/denominator)
-			if mode == "FINAL":
-				if counter == 1:
-					weight_featx = 0
+					val = weighted_temp_DL.get(key_main)
+					val.append(tuple((featx, weight_featx)))
+					weighted_temp_DL[key_main] = val
+		if mc == "ORG":
+			k = 12
+			for featx in set(value):
+				# occurences within the key subcategory and feature
+				x = value.count(featx)
+				nominator = x + alpha
+				#print(featx, x)
+				# total occurences in the entire temporary DL
+				counter = 0
+				for key2, value2 in temporary_DL.items():
+					for item in value2:
+						if item == featx:
+							counter += 1
+				if mode == "NORMAL":
+					if counter == 1:
+						weight_featx = 0
+					else:
+						denominator = counter + (k)
+						weight_featx = (nominator/denominator)
+				if mode == "FINAL":
+					if counter == 1:
+						weight_featx = 0
+					else:
+						denominator = counter + (k)
+						weight_featx = (nominator/denominator)
+				if key_main not in weighted_temp_DL:
+					weighted_temp_DL[key_main] = [tuple((featx, weight_featx))]
 				else:
-					denominator = counter + (k)
-					weight_featx = (nominator/denominator)
-			if key_main not in weighted_temp_DL:
-				weighted_temp_DL[key_main] = [tuple((featx, weight_featx))]
-			else:
-				val = weighted_temp_DL.get(key_main)
-				val.append(tuple((featx, weight_featx)))
-				weighted_temp_DL[key_main] = val
-			
+					val = weighted_temp_DL.get(key_main)
+					val.append(tuple((featx, weight_featx)))
+					weighted_temp_DL[key_main] = val
 	# get the top n weighted features per subcat/featurecat
 	if mode == "NORMAL":
 		for key, item in weighted_temp_DL.items():
@@ -291,7 +323,7 @@ def weigh_features(temporary_DL, mode):
 			for feature, w in item:
 				weights.append(w)
 			#print(weights)
-			top_weights = nlargest(15, weights)
+			top_weights = nlargest(50, weights)
 			#print(top_weights)
 			for feature, w in item:
 				if w in top_weights:
@@ -735,7 +767,11 @@ def main():
 			for item in value:
 				val.append(item)
 			final_DL[key] = val
-					
+	count2 = 0
+	for key, value in final_DL.items():
+		print(key, "\t :",len(value))
+		count2 += len(value)
+	print(count2)				
 		
 	# export the final decsion list
 	f = open("../data/final_DL.pkl","wb")
