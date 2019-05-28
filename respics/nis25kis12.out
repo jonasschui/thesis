@@ -1,0 +1,66 @@
+mode = n =20 k = 12 
+
+LOC 
+
+LOC matches = 844, no_matches = 360 ,present = 1234, precision = 0.7, recall = 0.68, f1_score = 0.69  
+
+PUNT matches = 7, no_matches = 3,present = 52, precision = 0.7, recall = 0.13, f1_score = 0.22 
+
+LIJN matches = 8, no_matches = 6,present = 28, precision = 0.57, recall = 0.29, f1_score = 0.38 
+
+BC matches = 276, no_matches = 151,present = 346, precision = 0.65, recall = 0.8, f1_score = 0.72 
+
+WATER matches = 20, no_matches = 6,present = 33, precision = 0.77, recall = 0.61, f1_score = 0.68 
+
+REGIO matches = 137, no_matches = 42,present = 259, precision = 0.77, recall = 0.53, f1_score = 0.63 
+
+FICTIEF matches = 0, no_matches = 28,present = 0, precision = 0.0, recall = 1, f1_score = 0.0 
+
+LAND matches = 392, no_matches = 106,present = 494, precision = 0.79, recall = 0.79, f1_score = 0.79 
+
+CONT matches = 0, no_matches = 17,present = 18, precision = 0.0, recall = 0.0, f1_score = 0 
+
+HEELAL matches = 4, no_matches = 1,present = 4, precision = 0.8, recall = 1.0, f1_score = 0.89 
+
+
+ ORG 
+
+ORG matches = 367, no_matches = 89,present = 474, precision = 0.8, recall = 0.77, f1_score = 0.78 
+
+MISC matches = 253, no_matches = 37,present = 317, precision = 0.87, recall = 0.8, f1_score = 0.83 
+
+COM matches = 34, no_matches = 8,present = 58, precision = 0.81, recall = 0.59, f1_score = 0.68 
+
+GOV matches = 80, no_matches = 44,present = 99, precision = 0.65, recall = 0.81, f1_score = 0.72 
+
+48
+
+ For LateX n = 5 k = 12
+LOC overall & 844 & 360 & 1234 & 0.7 & 0.68 & 0.69  
+
+POINT & 7 & 3 & 52 & 0.7 & 0.13 & 0.22  
+
+LINE & 8 & 6 & 28 & 0.57 & 0.29 & 0.38  
+
+PC & 276 & 151 & 346 & 0.65 & 0.8 & 0.72  
+
+WATER & 20 & 6 & 33 & 0.77 & 0.61 & 0.68  
+
+REGION & 137 & 42 & 259 & 0.77 & 0.53 & 0.63  
+
+FICTION & 0 & 28 & 0 & 0.0 & 1 & 0.0  
+
+COUNTRY & 392 & 106 & 494 & 0.79 & 0.79 & 0.79  
+
+CONTINENT & 0 & 17 & 18 & 0.0 & 0.0 & 0  
+
+COSMOS & 4 & 1 & 4 & 0.8 & 1.0 & 0.89  
+
+ORG overall & 367 & 89 & 474 & 0.8 & 0.77 & 0.78  
+
+MISC & 253 & 37 & 317 & 0.87 & 0.8 & 0.83  
+
+COMPANY &  34 & 8 & 58 & 0.81 & 0.59 & 0.68  
+
+GOVERNMENT & 80 & 44 & 99 & 0.65 & 0.81 & 0.72  
+
