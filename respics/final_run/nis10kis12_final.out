@@ -1,0 +1,66 @@
+mode = n =20 k = 12 
+
+LOC 
+
+LOC matches = 3361, no_matches = 1870 ,present = 5524, precision = 0.64, recall = 0.61, f1_score = 0.62  
+
+PUNT matches = 32, no_matches = 95,present = 226, precision = 0.25, recall = 0.14, f1_score = 0.18 
+
+LIJN matches = 23, no_matches = 132,present = 88, precision = 0.15, recall = 0.26, f1_score = 0.19 
+
+BC matches = 968, no_matches = 606,present = 1486, precision = 0.61, recall = 0.65, f1_score = 0.63 
+
+WATER matches = 69, no_matches = 231,present = 106, precision = 0.23, recall = 0.65, f1_score = 0.34 
+
+REGIO matches = 458, no_matches = 166,present = 1164, precision = 0.73, recall = 0.39, f1_score = 0.51 
+
+FICTIEF matches = 0, no_matches = 19,present = 0, precision = 0.0, recall = 1, f1_score = 0.0 
+
+LAND matches = 1793, no_matches = 460,present = 2259, precision = 0.8, recall = 0.79, f1_score = 0.79 
+
+CONT matches = 3, no_matches = 31,present = 169, precision = 0.09, recall = 0.02, f1_score = 0.03 
+
+HEELAL matches = 15, no_matches = 130,present = 21, precision = 0.1, recall = 0.71, f1_score = 0.18 
+
+
+ ORG 
+
+ORG matches = 1440, no_matches = 677,present = 2224, precision = 0.68, recall = 0.65, f1_score = 0.66 
+
+MISC matches = 625, no_matches = 376,present = 898, precision = 0.62, recall = 0.7, f1_score = 0.66 
+
+COM matches = 248, no_matches = 69,present = 569, precision = 0.78, recall = 0.44, f1_score = 0.56 
+
+GOV matches = 567, no_matches = 232,present = 755, precision = 0.71, recall = 0.75, f1_score = 0.73 
+
+400
+
+ For LateX n = 5 k = 12
+LOC overall & 3361 & 1870 & 5524 & 0.64 & 0.61 & 0.62  
+
+POINT & 32 & 95 & 226 & 0.25 & 0.14 & 0.18  
+
+LINE & 23 & 132 & 88 & 0.15 & 0.26 & 0.19  
+
+PC & 968 & 606 & 1486 & 0.61 & 0.65 & 0.63  
+
+WATER & 69 & 231 & 106 & 0.23 & 0.65 & 0.34  
+
+REGION & 458 & 166 & 1164 & 0.73 & 0.39 & 0.51  
+
+FICTION & 0 & 19 & 0 & 0.0 & 1 & 0.0  
+
+COUNTRY & 1793 & 460 & 2259 & 0.8 & 0.79 & 0.79  
+
+CONTINENT & 3 & 31 & 169 & 0.09 & 0.02 & 0.03  
+
+COSMOS & 15 & 130 & 21 & 0.1 & 0.71 & 0.18  
+
+ORG overall & 1440 & 677 & 2224 & 0.68 & 0.65 & 0.66  
+
+MISC & 625 & 376 & 898 & 0.62 & 0.7 & 0.66  
+
+COMPANY &  248 & 69 & 569 & 0.78 & 0.44 & 0.56  
+
+GOVERNMENT & 567 & 232 & 755 & 0.71 & 0.75 & 0.73  
+
