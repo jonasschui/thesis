@@ -323,7 +323,7 @@ def weigh_features(temporary_DL, mode):
 			for feature, w in item:
 				weights.append(w)
 			#print(weights)
-			top_weights = nlargest(50, weights)
+			top_weights = nlargest(10, weights)
 			#print(top_weights)
 			for feature, w in item:
 				if w in top_weights:
@@ -668,7 +668,7 @@ def main():
 
 	# step1: iterate through data in search of NE
 	track = 0
-	for i in range(250):
+	for i in range(90):
 		counter = 0
 		print(i)
 		new_context = retrieve_new_context(initial_DL, lines, "NORMAL")
@@ -747,7 +747,7 @@ def main():
 		print(key, len(item))
 
 	# do one last iteration adding all found rules on the last iteration regardless of weight or type
-
+	
 	new_context = retrieve_new_context(final_DL, lines, "FINAL")
 	# add the found context rules tot the decision list
 	for key, value in new_context.items():
@@ -759,6 +759,7 @@ def main():
 				val.append(item)
 			final_DL[key] = val
 	new_spelling = retrieve_new_spelling(final_DL, lines, "FINAL")
+	
 	for key, value in new_spelling.items():
 		if key not in final_DL:
 			final_DL[key] = value

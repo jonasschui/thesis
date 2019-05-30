@@ -140,7 +140,7 @@ def f1_measure(precision, recall):
 def main():
 	final_DL = load_final_DL()
 	lines = []
-	infile = open("../data/using_development/SoNaR1_dev.txt", "r",encoding="utf8")
+	infile = open("../data/SoNaR1_test.txt", "r",encoding="utf8")
 	next(infile)
 	for line in infile:
 		line = line.rstrip().split("\t")
