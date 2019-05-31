@@ -1,0 +1,66 @@
+mode = n =20 k = 12 
+
+LOC 
+
+LOC matches = 738, no_matches = 443 ,present = 1234, precision = 0.62, recall = 0.6, f1_score = 0.61  
+
+PUNT matches = 6, no_matches = 10,present = 52, precision = 0.38, recall = 0.12, f1_score = 0.18 
+
+LIJN matches = 3, no_matches = 18,present = 28, precision = 0.14, recall = 0.11, f1_score = 0.12 
+
+BC matches = 233, no_matches = 158,present = 346, precision = 0.6, recall = 0.67, f1_score = 0.63 
+
+WATER matches = 14, no_matches = 2,present = 33, precision = 0.88, recall = 0.42, f1_score = 0.57 
+
+REGIO matches = 114, no_matches = 23,present = 259, precision = 0.83, recall = 0.44, f1_score = 0.58 
+
+FICTIEF matches = 0, no_matches = 39,present = 0, precision = 0.0, recall = 1, f1_score = 0.0 
+
+LAND matches = 364, no_matches = 142,present = 494, precision = 0.72, recall = 0.74, f1_score = 0.73 
+
+CONT matches = 0, no_matches = 31,present = 18, precision = 0.0, recall = 0.0, f1_score = 0 
+
+HEELAL matches = 4, no_matches = 20,present = 4, precision = 0.17, recall = 1.0, f1_score = 0.29 
+
+
+ ORG 
+
+ORG matches = 226, no_matches = 199,present = 474, precision = 0.53, recall = 0.48, f1_score = 0.5 
+
+MISC matches = 138, no_matches = 47,present = 317, precision = 0.75, recall = 0.44, f1_score = 0.55 
+
+COM matches = 14, no_matches = 5,present = 58, precision = 0.74, recall = 0.24, f1_score = 0.36 
+
+GOV matches = 74, no_matches = 147,present = 99, precision = 0.33, recall = 0.75, f1_score = 0.46 
+
+102
+
+ For LateX n = 5 k = 12
+LOC overall & 738 & 443 & 1234 & 0.62 & 0.6 & 0.61  
+
+POINT & 6 & 10 & 52 & 0.38 & 0.12 & 0.18  
+
+LINE & 3 & 18 & 28 & 0.14 & 0.11 & 0.12  
+
+PC & 233 & 158 & 346 & 0.6 & 0.67 & 0.63  
+
+WATER & 14 & 2 & 33 & 0.88 & 0.42 & 0.57  
+
+REGION & 114 & 23 & 259 & 0.83 & 0.44 & 0.58  
+
+FICTION & 0 & 39 & 0 & 0.0 & 1 & 0.0  
+
+COUNTRY & 364 & 142 & 494 & 0.72 & 0.74 & 0.73  
+
+CONTINENT & 0 & 31 & 18 & 0.0 & 0.0 & 0  
+
+COSMOS & 4 & 20 & 4 & 0.17 & 1.0 & 0.29  
+
+ORG overall & 226 & 199 & 474 & 0.53 & 0.48 & 0.5  
+
+MISC & 138 & 47 & 317 & 0.75 & 0.44 & 0.55  
+
+COMPANY &  14 & 5 & 58 & 0.74 & 0.24 & 0.36  
+
+GOVERNMENT & 74 & 147 & 99 & 0.33 & 0.75 & 0.46  
+
