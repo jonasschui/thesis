@@ -655,7 +655,19 @@ def main():
 			feature = tuple((feature, weight))
 			weighted_feats.append(feature)
 		initial_DL[key] = weighted_feats
-
+	# calculate baseline 2 dictionary
+	'''
+	count2 = 0
+	for key, value in initial_DL.items():
+		print(key, "\t :",len(value))
+		count2 += len(value)
+	print(count2)	
+	
+	f = open("../data/baseline2_DL.pkl","wb")
+	pickle.dump(initial_DL,f)
+	f.close()
+	exit()
+	'''
 	#initial_DL = manually_add_to_initital_DL(initial_DL)
 	# read in dataset
 	lines = []

@@ -231,9 +231,10 @@ def main():
 				
 				# label the NE
 				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
+				print(label)
 				#print(line_one, label)
 				if main_cat == "LOC":
-					label = label.upper()
+					label = "LAND"
 					subcat = line_one[-1].upper()
 					if subcat == label:
 						if label == "PUNT":
@@ -310,7 +311,7 @@ def main():
 					loc_present += 1
 						
 				if main_cat == "ORG":
-					label = label.upper()
+					label = "MISC"
 					subcat = line_one[-1].upper()
 					if subcat == label:
 						if label == "MISC":
@@ -358,7 +359,7 @@ def main():
 				label = label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, final_DL)
 				#print(line_two, label)
 				if main_cat == "LOC":
-					label = label.upper()
+					label = "LAND"
 					subcat = line_two[-1].upper()
 					if subcat == label:
 						if label == "PUNT":
@@ -426,7 +427,7 @@ def main():
 					loc_present += 1
 						
 				if main_cat == "ORG":
-					label = label.upper()
+					label = "MISC"
 					subcat = line_two[-1].upper()
 					if subcat == label:
 						if label == "MISC":
@@ -486,7 +487,7 @@ def main():
 				if label == "none_found":
 						none_found += 1
 				if main_cat == "LOC":
-					label = label.upper()
+					label = "LAND"
 					subcat = line_three[-1].upper()
 					if subcat == label:
 						if label == "PUNT":
@@ -562,7 +563,7 @@ def main():
 					loc_present += 1
 						
 				if main_cat == "ORG":
-					label = label.upper()
+					label = "MISC"
 					subcat = line_three[-1].upper()
 					if subcat == label:
 						if label == "MISC":
