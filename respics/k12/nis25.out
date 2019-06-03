@@ -2,65 +2,65 @@ mode = n =20 k = 12
 
 LOC 
 
-LOC matches = 767, no_matches = 419 ,present = 1234, precision = 0.65, recall = 0.62, f1_score = 0.63  
+LOC matches = 774, no_matches = 417 ,present = 1234, precision = 0.65, recall = 0.63, f1_score = 0.64  
 
-PUNT matches = 4, no_matches = 7,present = 52, precision = 0.36, recall = 0.08, f1_score = 0.13 
+PUNT matches = 6, no_matches = 13,present = 52, precision = 0.32, recall = 0.12, f1_score = 0.17 
 
-LIJN matches = 2, no_matches = 9,present = 28, precision = 0.18, recall = 0.07, f1_score = 0.1 
+LIJN matches = 2, no_matches = 5,present = 28, precision = 0.29, recall = 0.07, f1_score = 0.11 
 
-BC matches = 257, no_matches = 158,present = 346, precision = 0.62, recall = 0.74, f1_score = 0.67 
+BC matches = 244, no_matches = 156,present = 346, precision = 0.61, recall = 0.71, f1_score = 0.66 
 
-WATER matches = 15, no_matches = 16,present = 33, precision = 0.48, recall = 0.45, f1_score = 0.46 
+WATER matches = 14, no_matches = 11,present = 33, precision = 0.56, recall = 0.42, f1_score = 0.48 
 
-REGIO matches = 109, no_matches = 19,present = 259, precision = 0.85, recall = 0.42, f1_score = 0.56 
+REGIO matches = 129, no_matches = 56,present = 259, precision = 0.7, recall = 0.5, f1_score = 0.58 
 
-FICTIEF matches = 0, no_matches = 27,present = 0, precision = 0.0, recall = 1, f1_score = 0.0 
+FICTIEF matches = 0, no_matches = 33,present = 0, precision = 0.0, recall = 1, f1_score = 0.0 
 
-LAND matches = 376, no_matches = 181,present = 494, precision = 0.68, recall = 0.76, f1_score = 0.72 
+LAND matches = 375, no_matches = 96,present = 494, precision = 0.8, recall = 0.76, f1_score = 0.78 
 
-CONT matches = 0, no_matches = 2,present = 18, precision = 0.0, recall = 0.0, f1_score = 0 
+CONT matches = 0, no_matches = 35,present = 18, precision = 0.0, recall = 0.0, f1_score = 0 
 
-HEELAL matches = 4, no_matches = 0,present = 4, precision = 1, recall = 1.0, f1_score = 1.0 
+HEELAL matches = 4, no_matches = 12,present = 4, precision = 0.25, recall = 1.0, f1_score = 0.4 
 
 
  ORG 
 
-ORG matches = 276, no_matches = 158,present = 474, precision = 0.64, recall = 0.58, f1_score = 0.61 
+ORG matches = 279, no_matches = 163,present = 474, precision = 0.63, recall = 0.59, f1_score = 0.61 
 
-MISC matches = 181, no_matches = 38,present = 317, precision = 0.83, recall = 0.57, f1_score = 0.68 
+MISC matches = 193, no_matches = 58,present = 317, precision = 0.77, recall = 0.61, f1_score = 0.68 
 
-COM matches = 28, no_matches = 55,present = 58, precision = 0.34, recall = 0.48, f1_score = 0.4 
+COM matches = 16, no_matches = 13,present = 58, precision = 0.55, recall = 0.28, f1_score = 0.37 
 
-GOV matches = 67, no_matches = 65,present = 99, precision = 0.51, recall = 0.68, f1_score = 0.58 
+GOV matches = 70, no_matches = 92,present = 99, precision = 0.43, recall = 0.71, f1_score = 0.54 
 
-88
+75
 
  For LateX n = 5 k = 12
-LOC overall & 767 & 419 & 1234 & 0.65 & 0.62 & 0.63  
+LOC overall & 774 & 417 & 1234 & 0.65 & 0.63 & 0.64  
 
-POINT & 4 & 7 & 52 & 0.36 & 0.08 & 0.13  
+POINT & 6 & 13 & 52 & 0.32 & 0.12 & 0.17  
 
-LINE & 2 & 9 & 28 & 0.18 & 0.07 & 0.1  
+LINE & 2 & 5 & 28 & 0.29 & 0.07 & 0.11  
 
-PC & 257 & 158 & 346 & 0.62 & 0.74 & 0.67  
+PC & 244 & 156 & 346 & 0.61 & 0.71 & 0.66  
 
-WATER & 15 & 16 & 33 & 0.48 & 0.45 & 0.46  
+WATER & 14 & 11 & 33 & 0.56 & 0.42 & 0.48  
 
-REGION & 109 & 19 & 259 & 0.85 & 0.42 & 0.56  
+REGION & 129 & 56 & 259 & 0.7 & 0.5 & 0.58  
 
-FICTION & 0 & 27 & 0 & 0.0 & 1 & 0.0  
+FICTION & 0 & 33 & 0 & 0.0 & 1 & 0.0  
 
-COUNTRY & 376 & 181 & 494 & 0.68 & 0.76 & 0.72  
+COUNTRY & 375 & 96 & 494 & 0.8 & 0.76 & 0.78  
 
-CONTINENT & 0 & 2 & 18 & 0.0 & 0.0 & 0  
+CONTINENT & 0 & 35 & 18 & 0.0 & 0.0 & 0  
 
-COSMOS & 4 & 0 & 4 & 1 & 1.0 & 1.0  
+COSMOS & 4 & 12 & 4 & 0.25 & 1.0 & 0.4  
 
-ORG overall & 276 & 158 & 474 & 0.64 & 0.58 & 0.61  
+ORG overall & 279 & 163 & 474 & 0.63 & 0.59 & 0.61  
 
-MISC & 181 & 38 & 317 & 0.83 & 0.57 & 0.68  
+MISC & 193 & 58 & 317 & 0.77 & 0.61 & 0.68  
 
-COMPANY &  28 & 55 & 58 & 0.34 & 0.48 & 0.4  
+COMPANY &  16 & 13 & 58 & 0.55 & 0.28 & 0.37  
 
-GOVERNMENT & 67 & 65 & 99 & 0.51 & 0.68 & 0.58  
+GOVERNMENT & 70 & 92 & 99 & 0.43 & 0.71 & 0.54  
 

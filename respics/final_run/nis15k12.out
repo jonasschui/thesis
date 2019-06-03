@@ -1,0 +1,66 @@
+mode = n =20 k = 12 
+
+LOC 
+
+LOC matches = 3393, no_matches = 1730 ,present = 5524, precision = 0.66, recall = 0.61, f1_score = 0.63  
+
+PUNT matches = 33, no_matches = 17,present = 226, precision = 0.66, recall = 0.15, f1_score = 0.24 
+
+LIJN matches = 19, no_matches = 17,present = 88, precision = 0.53, recall = 0.22, f1_score = 0.31 
+
+BC matches = 925, no_matches = 462,present = 1486, precision = 0.67, recall = 0.62, f1_score = 0.64 
+
+WATER matches = 44, no_matches = 16,present = 106, precision = 0.73, recall = 0.42, f1_score = 0.53 
+
+REGIO matches = 477, no_matches = 119,present = 1164, precision = 0.8, recall = 0.41, f1_score = 0.54 
+
+FICTIEF matches = 0, no_matches = 67,present = 0, precision = 0.0, recall = 1, f1_score = 0.0 
+
+LAND matches = 1877, no_matches = 881,present = 2259, precision = 0.68, recall = 0.83, f1_score = 0.75 
+
+CONT matches = 4, no_matches = 70,present = 169, precision = 0.05, recall = 0.02, f1_score = 0.03 
+
+HEELAL matches = 14, no_matches = 81,present = 21, precision = 0.15, recall = 0.67, f1_score = 0.25 
+
+
+ ORG 
+
+ORG matches = 1466, no_matches = 589,present = 2224, precision = 0.71, recall = 0.66, f1_score = 0.68 
+
+MISC matches = 677, no_matches = 376,present = 898, precision = 0.64, recall = 0.75, f1_score = 0.69 
+
+COM matches = 271, no_matches = 97,present = 569, precision = 0.74, recall = 0.48, f1_score = 0.58 
+
+GOV matches = 518, no_matches = 116,present = 755, precision = 0.82, recall = 0.69, f1_score = 0.75 
+
+570
+
+ For LateX n = 5 k = 12
+LOC overall & 3393 & 1730 & 5524 & 0.66 & 0.61 & 0.63  
+
+POINT & 33 & 17 & 226 & 0.66 & 0.15 & 0.24  
+
+LINE & 19 & 17 & 88 & 0.53 & 0.22 & 0.31  
+
+PC & 925 & 462 & 1486 & 0.67 & 0.62 & 0.64  
+
+WATER & 44 & 16 & 106 & 0.73 & 0.42 & 0.53  
+
+REGION & 477 & 119 & 1164 & 0.8 & 0.41 & 0.54  
+
+FICTION & 0 & 67 & 0 & 0.0 & 1 & 0.0  
+
+COUNTRY & 1877 & 881 & 2259 & 0.68 & 0.83 & 0.75  
+
+CONTINENT & 4 & 70 & 169 & 0.05 & 0.02 & 0.03  
+
+COSMOS & 14 & 81 & 21 & 0.15 & 0.67 & 0.25  
+
+ORG overall & 1466 & 589 & 2224 & 0.71 & 0.66 & 0.68  
+
+MISC & 677 & 376 & 898 & 0.64 & 0.75 & 0.69  
+
+COMPANY &  271 & 97 & 569 & 0.74 & 0.48 & 0.58  
+
+GOVERNMENT & 518 & 116 & 755 & 0.82 & 0.69 & 0.75  
+

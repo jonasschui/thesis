@@ -114,7 +114,7 @@ def label_ne(ne,post_bi_un,pre_bi_un,post_si_un,pre_si_un, main_cat, decision_li
 
 
 def load_final_DL():
-	pickle_in = open("../data/baseline2_DL.pkl","rb")
+	pickle_in = open("../data/final_DL.pkl","rb")
 	final_DL = pickle.load(pickle_in)
 	return final_DL
 
@@ -276,7 +276,7 @@ def main():
 							regio_no_match += 1
 							no_match_loc += 1
 						elif label == "FICTIEF":
-							ficitef_no_match += 1
+							fictief_no_match += 1
 							no_match_loc += 1
 						elif label == 'LAND':
 							land_no_match += 1

@@ -12,10 +12,12 @@ def main():
 	access = defaultdict(list)
 	for key, value in final_DL.items():
 		feat = key.split("_")[-1]
-		if feat != "unique":
+		cat = key.split("_")[1]
+		print(cat)
+		if feat != "unique" and (cat == "heelal" or cat == "fictief") :
 			for item in value:
 				featx, w = item
-				if w < 0.99:
+				if w != 0.99:
 					if key not in access:
 						access[key] = [item]
 					else:

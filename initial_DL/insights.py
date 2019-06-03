@@ -727,9 +727,10 @@ def main():
 	#print("\n")
 	#for key,v in feature_dict_per_subcat.items():
 	#	print(key)
-	
-	
-		
+	count = 0
+	for key, value in feature_dict_per_subcat.items():
+		count += len(value)
+	print(count)
 	f = open("initial_DL.pkl","wb")
 	pickle.dump(feature_dict_per_subcat,f)
 	f.close()

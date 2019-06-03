@@ -323,7 +323,7 @@ def weigh_features(temporary_DL, mode):
 			for feature, w in item:
 				weights.append(w)
 			#print(weights)
-			top_weights = nlargest(10, weights)
+			top_weights = nlargest(15, weights)
 			#print(top_weights)
 			for feature, w in item:
 				if w in top_weights:
@@ -745,18 +745,12 @@ def main():
 	for key, value in initial_DL.items():
 		feat = "_".join(key.split("_")[2:])
 		if feat != "unique":
-			for k, v in initial_copy.items():
-				if k == key:
-					val = initial_DL.get(key)
-					for item in val:
-						if item not in v:
-							val.remove(item)
-					final_DL[key] = val
-		else:
-			val = initial_DL.get(key)
-			final_DL[key] = val
-	for key, item in final_DL.items():
-		print(key, len(item))
+			for item in value:
+				print(item[1])
+				if item[1] != 0.99:
+					value.remove(item)
+		final_DL[key] = value
+
 
 	# do one last iteration adding all found rules on the last iteration regardless of weight or type
 	
